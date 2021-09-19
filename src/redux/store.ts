@@ -1,7 +1,7 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { cocktailReducer } from "./slices/cocktailSlice";
-import createSagaMiddleware from "redux-saga";
-import { watcherSaga } from "./sagas";
+import { configureStore } from '@reduxjs/toolkit';
+import { cocktailReducer } from './slices/cocktailSlice';
+import createSagaMiddleware from 'redux-saga';
+import { watcherSaga } from './sagas';
 
 const sagaMiddleware = createSagaMiddleware();
 

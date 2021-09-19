@@ -1,3 +1,4 @@
+import { SyntheticEvent } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Checkbox from '@mui/material/Checkbox';
@@ -20,7 +21,7 @@ export const SearchByIngredients = (props: SearchByIngredientsProps) => {
       options={INGREDIENTS}
       fullWidth
       value={value}
-      onChange={(event: any, newValue: string[]) => {
+      onChange={(event: SyntheticEvent, newValue: string[]) => {
         onChange(newValue);
       }}
       renderOption={(props, option, { selected }) => (
