@@ -1,11 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Cocktail } from 'types';
+import { Cocktail, CocktailQuery } from 'types';
 
 export interface CocktailState {
+  query: CocktailQuery;
   cocktails?: Cocktail[];
 }
 
 const initialState: CocktailState = {
+  query: { name: '', ingredients: [], sortType: 'MOST_POPULAR' },
   cocktails: undefined,
 };
 
@@ -16,9 +18,12 @@ export const cocktailSlice = createSlice({
     setCocktails: (state, action: PayloadAction<Cocktail[]>) => {
       state.cocktails = action.payload;
     },
+    setQuery: (state, action: PayloadAction<CocktailQuery>) => {
+      state.query = action.payload;
+    },
   },
 });
 
-export const { setCocktails } = cocktailSlice.actions;
+export const { setCocktails, setQuery } = cocktailSlice.actions;
 
 export const { reducer: cocktailReducer } = cocktailSlice;
