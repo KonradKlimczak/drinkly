@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Cocktail, CocktailQuery } from 'types';
 
-export interface CocktailState {
+export type CocktailState = {
   query: CocktailQuery;
   cocktails?: Cocktail[];
-}
+};
 
 const initialState: CocktailState = {
   query: { name: '', ingredients: [], sortType: 'MOST_POPULAR' },

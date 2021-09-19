@@ -8,16 +8,22 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { Link as RouterLink } from 'react-router-dom';
+import { setUser } from 'redux/slices/userSlice';
+import { useDispatch } from 'react-redux';
 
 export const Login = () => {
+  const dispatch = useDispatch();
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
 
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    dispatch(
+      setUser({
+        firstName: 'Konrad',
+        lastName: 'Klimczak',
+        email: 'test@test.com',
+      })
+    );
   };
 
   return (

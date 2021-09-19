@@ -1,13 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { cocktailReducer } from './slices/cocktailSlice';
 import createSagaMiddleware from 'redux-saga';
+
 import { watcherSaga } from './sagas';
+import { cocktailReducer } from './slices/cocktailSlice';
+import { userReducer } from './slices/userSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
 export const store = configureStore({
   reducer: {
     cocktail: cocktailReducer,
+    user: userReducer,
   },
   middleware: [sagaMiddleware],
 });

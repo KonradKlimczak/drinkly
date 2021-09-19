@@ -1,12 +1,16 @@
 import { render, screen } from '@testing-library/react';
+import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { store } from 'redux/store';
 import { ApplicationBar } from './ApplicationBar';
 
 test('renders Application Bar with icon, header and buttons', () => {
   render(
-    <Router>
-      <ApplicationBar />
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <ApplicationBar />
+      </Router>
+    </Provider>
   );
 
   const iconElement = screen.getByTestId('LocalBarIcon');

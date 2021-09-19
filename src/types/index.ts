@@ -13,3 +13,9 @@ export type CocktailQuery = {
   sortType: SortType;
   ingredients: string[];
 };
+
+export type User = {
+  firstName: string;
+  lastName: string;
+  email: string;
+}
