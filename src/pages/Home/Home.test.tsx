@@ -1,9 +1,14 @@
 import { render, screen } from '@testing-library/react';
-import { Cocktail } from 'types';
+import { Provider } from 'react-redux';
+import { store } from 'redux/store';
 import { Home } from './Home';
 
 test('renders Cocktail Card with', () => {
-  render(<Home />);
+  render(
+    <Provider store={store}>
+      <Home />
+    </Provider>
+  );
 
   const cocktailNameInput = screen.getByTestId('cocktail-name-input');
   expect(cocktailNameInput).toHaveTextContent('Cocktail name');

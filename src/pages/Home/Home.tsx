@@ -2,14 +2,26 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { CocktailCard } from 'components/CocktailCard';
 import Grid from '@mui/material/Grid';
-import { COCKTAILS_MOCK } from './constants';
 import { SearchByIngredients } from './SearchByIngredients';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCocktails } from 'redux/sagas/actions/cocktail';
+import { useEffect } from 'react';
+import { RootState } from 'redux/store';
+import Stack from '@mui/material/Stack';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export const Home = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCocktails());
+  }, [dispatch]);
+  const cocktails = useSelector((state: RootState) => state.cocktail.cocktails);
+
   return (
     <Box sx={{ padding: 1 }}>
       <Grid container spacing={3}>
@@ -44,8 +56,21 @@ export const Home = () => {
         </Grid>
       </Grid>
 
+      {typeof cocktails === 'undefined' && (
+        <Stack
+          sx={{ color: 'grey.500' }}
+          spacing={2}
+          direction="row"
+          justifyContent="center"
+          mt={3}
+        >
+          <CircularProgress color="secondary" />
+          <CircularProgress color="success" />
+          <CircularProgress color="inherit" />
+        </Stack>
+      )}
       <Grid container spacing={4} sx={{ marginTop: 0 }} flexDirection="column">
-        {COCKTAILS_MOCK.map((cocktail) => (
+        {cocktails?.map((cocktail) => (
           <CocktailCard key={cocktail.id} cocktail={cocktail} />
         ))}
       </Grid>
