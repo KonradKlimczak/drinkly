@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { store } from 'redux/store';
 import { Home } from './Home';
 
-test('renders Cocktail Card with', () => {
+test('renders Home page', () => {
   render(
     <Provider store={store}>
       <Home />

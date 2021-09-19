@@ -1,10 +1,12 @@
-import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
-import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
-import { CocktailCard } from 'components/CocktailCard';
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
+import CircularProgress from '@mui/material/CircularProgress';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Stack from '@mui/material/Stack';
+
+import { CocktailCard } from 'components/CocktailCard';
 import { getCocktails } from 'redux/sagas/actions/cocktail';
 import { setQuery } from 'redux/slices/cocktailSlice';
 import { RootState } from 'redux/store';
@@ -27,10 +29,9 @@ export const Home = () => {
     },
     [dispatch]
   );
-  console.log(query);
 
   return (
-    <Box sx={{ padding: 1 }}>
+    <Container maxWidth="xl" component="main" sx={{ marginTop: 1 }}>
       <CocktailSearch search={query} onChange={handleChangeSearch} />
 
       {typeof cocktails === 'undefined' && (
@@ -45,6 +46,6 @@ export const Home = () => {
           <CocktailCard key={cocktail.id} cocktail={cocktail} />
         ))}
       </Grid>
-    </Box>
+    </Container>
   );
 };

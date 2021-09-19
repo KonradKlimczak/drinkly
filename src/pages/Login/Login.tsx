@@ -1,3 +1,9 @@
+import Container from '@mui/material/Container';
+
 export const Login = () => {
-  return <div>Login</div>;
+  return (
+    <Container component="main" maxWidth="xs">
+      Login
+    </Container>
+  );
 };
