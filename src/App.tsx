@@ -4,12 +4,13 @@ import { ApplicationBar } from 'components/ApplicationBar';
 import { CreateAccount } from 'pages/CreateAccount';
 import { Home } from 'pages/Home';
 import { Login } from 'pages/Login';
+import Container from '@mui/material/Container';
 
 function App() {
   return (
     <Router>
       <ApplicationBar />
-      <main>
+      <Container maxWidth="xl" component="main">
         <Switch>
           <Route path="/login">
             <Login />
@@ -21,7 +22,7 @@ function App() {
             <Home />
           </Route>
         </Switch>
-      </main>
+      </Container>
     </Router>
   );
 }
