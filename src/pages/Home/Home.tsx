@@ -20,8 +20,8 @@ export const Home = () => {
   const cocktails = useSelector((state: RootState) => state.cocktail.cocktails);
 
   useEffect(() => {
-    dispatch(getCocktails());
-  }, [dispatch]);
+    dispatch(getCocktails(query));
+  }, [query, dispatch]);
 
   const handleChangeSearch = useCallback(
     (query: CocktailQuery) => {

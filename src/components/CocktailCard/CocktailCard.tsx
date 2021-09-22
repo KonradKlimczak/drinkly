@@ -38,7 +38,18 @@ export const CocktailCard = (props: CocktailCardProps) => {
               />
             </Typography>
             <Typography variant="subtitle1" paragraph>
-              {cocktail.ingredients.join(', ')}
+              {cocktail.recipe.map((step, index) => (
+                <div key={index}>
+                  <div>{step.action}</div>
+                  <div>
+                    {step.ingredients.map((ingredient) => (
+                      <div key={ingredient.name}>
+                        {ingredient.name} {ingredient.amount} {ingredient.unit}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </Typography>
             <Typography variant="subtitle1" color="primary">
               Continue reading...
