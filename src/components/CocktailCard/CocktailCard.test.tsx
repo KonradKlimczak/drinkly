@@ -3,17 +3,56 @@ import { Cocktail } from 'types';
 import { CocktailCard } from './CocktailCard';
 
 const COCKTAIL: Cocktail = {
-  id: '1',
+  id: 'w1',
   name: 'Whiskey Sour',
   rating: 4.9,
-  image: 'https://source.unsplash.com/random',
-  ingredients: [
-    '2 oz or 60 ml of Rye',
-    '.5 oz or 15 ml of Simple Syrup',
-    '.75 oz or 22 ml of Lemon Juice',
-    'Egg White',
-    '4 Drops Bitters',
+  image: 'https://upload.wikimedia.org/wikipedia/commons/5/59/Whiskey_Sour.jpg',
+  recipe: [
+    {
+      action: 'shake',
+      ingredients: [
+        {
+          name: 'Whiskey Rye',
+          amount: 60,
+          unit: 'ml',
+        },
+        {
+          name: 'Simple Syrup',
+          amount: 15,
+          unit: 'ml',
+        },
+        {
+          name: 'Lemon Juice',
+          amount: 22,
+          unit: 'ml',
+        },
+        {
+          name: 'Egg white',
+          amount: 1,
+        },
+      ],
+    },
+    {
+      action: 'shake',
+      ingredients: [
+        {
+          name: 'Ice cubes',
+          amount: 4,
+        },
+      ],
+    },
+    {
+      action: 'garnish',
+      ingredients: [
+        {
+          name: 'Angostura Bitters',
+          amount: 4,
+          unit: 'drops',
+        },
+      ],
+    },
   ],
+  views: 223,
 };
 
 test('renders Cocktail Card with', () => {

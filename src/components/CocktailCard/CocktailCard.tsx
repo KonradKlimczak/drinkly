@@ -6,6 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Rating from '@mui/material/Rating';
 import { Cocktail } from 'types';
+import { Pour, Shaker } from 'components/Icon';
 
 type CocktailCardProps = {
   cocktail: Cocktail;
@@ -37,23 +38,24 @@ export const CocktailCard = (props: CocktailCardProps) => {
                 readOnly
               />
             </Typography>
-            <Typography variant="subtitle1" paragraph>
-              {cocktail.recipe.map((step, index) => (
-                <div key={index}>
-                  <div>{step.action}</div>
-                  <div>
-                    {step.ingredients.map((ingredient) => (
-                      <div key={ingredient.name}>
-                        {ingredient.name} {ingredient.amount} {ingredient.unit}
-                      </div>
-                    ))}
-                  </div>
+            {cocktail.recipe.map((step, index) => (
+              <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+                {step.action === 'shake' && <Shaker />}
+                {step.action === 'pour' && <Pour />}
+                <div style={{ display: 'flex' }}>
+                  {step.ingredients.map((ingredient) => (
+                    <div key={ingredient.name} style={{ padding: 8 }}>
+                      <Typography variant="body2" component="div" display="flex" justifyContent="center">
+                        {ingredient.amount} {ingredient.unit}
+                      </Typography>
+                      <Typography variant="subtitle2" component="div">
+                        {ingredient.name}
+                      </Typography>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </Typography>
-            <Typography variant="subtitle1" color="primary">
-              Continue reading...
-            </Typography>
+              </div>
+            ))}
           </CardContent>
         </Card>
       </CardActionArea>

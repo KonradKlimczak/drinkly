@@ -5,7 +5,7 @@ export type Ingredient = {
 };
 
 export type RecipeStep = {
-  action: 'shake' | 'garnish';
+  action: 'shake' | 'garnish'| 'pour';
   ingredients: Ingredient[];
 };
 
