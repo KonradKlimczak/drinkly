@@ -22,7 +22,7 @@ export const ApplicationBar = () => {
         </Typography>
         {user.isLogged ? (
           <>
-            <Button variant="contained" sx={{ my: 1, mx: 1.5 }}>
+            <Button component={RouterLink} to="/createCocktail" variant="contained" sx={{ my: 1, mx: 1.5 }}>
               Add new Cocktail
             </Button>
             <UserButton user={user} />

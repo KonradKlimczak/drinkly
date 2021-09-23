@@ -7,11 +7,12 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
 import { setUser } from 'redux/slices/userSlice';
 import { useDispatch } from 'react-redux';
 
 export const Login = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -24,6 +25,7 @@ export const Login = () => {
         email: 'test@test.com',
       })
     );
+    history.push('/');
   };
 
   return (
