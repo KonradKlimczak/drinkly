@@ -1,6 +1,6 @@
 export const Pour = () => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 19.444 22.203">
+    <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 19.444 22.203">
       <g id="Pour" transform="translate(-293.286 -165.334)">
         <path
           id="Path_27"

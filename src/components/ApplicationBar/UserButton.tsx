@@ -36,10 +36,10 @@ export const UserButton = (props: UserButtonProps) => {
       <Box onClick={handleClick} sx={{ cursor: 'pointer' }}>
         <Avatar
           sx={{
-            bgcolor: getStringToColor(user.firstName + user.lastName),
+            bgcolor: getStringToColor(user.username + user.lastName),
           }}
         >
-          {getInitials(user.firstName, user.lastName)}
+          {getInitials(user.username, user.lastName)}
         </Avatar>
       </Box>
       <ArrowDropDownIcon fontSize="small" />

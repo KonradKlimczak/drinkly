@@ -6,7 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Rating from '@mui/material/Rating';
 import { Cocktail } from 'types';
-import { Pour, Shaker } from 'components/Icon';
+import { CocktailStepIcon } from 'components/Icon';
 
 type CocktailCardProps = {
   cocktail: Cocktail;
@@ -40,8 +40,7 @@ export const CocktailCard = (props: CocktailCardProps) => {
             </Typography>
             {cocktail.recipe.map((step, index) => (
               <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
-                {step.action === 'shake' && <Shaker />}
-                {step.action === 'pour' && <Pour />}
+                <CocktailStepIcon icon={step.action} />
                 <div style={{ display: 'flex' }}>
                   {step.ingredients.map((ingredient) => (
                     <div key={ingredient.name} style={{ padding: 8 }}>

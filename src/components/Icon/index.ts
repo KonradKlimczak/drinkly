@@ -1,2 +1,1 @@
-export * from './Pour';
-export * from './Shaker';
+export * from './CocktailStepIcon';

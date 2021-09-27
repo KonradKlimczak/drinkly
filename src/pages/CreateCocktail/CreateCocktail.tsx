@@ -1,52 +1,100 @@
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+import { useCallback, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
+import { CocktailInput } from 'types';
+import { CocktailForm } from './CocktailForm';
 
 export const CreateCocktail = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-  };
+  const [cocktail, setCocktail] = useState<CocktailInput>({
+    name: '',
+    recipe: [
+      {
+        action: 'shake',
+        ingredients: [
+          {
+            amount: '',
+            name: '',
+          },
+        ],
+      },
+    ],
+  });
+  const user = useSelector((state: RootState) => state.user.user);
+
+  const handleChangeName = useCallback((name: string) => {
+    setCocktail((prev) => ({
+      ...prev,
+      name,
+    }));
+  }, []);
+
+  const handleAddIngredient = useCallback((stepIndex: number) => {
+    setCocktail((prev) => ({
+      ...prev,
+      recipe: prev.recipe.map((step, index) => {
+        if (index === stepIndex) {
+          return { ...step, ingredients: [...step.ingredients, { name: '', amount: '' }] };
+        }
+        return step;
+      }),
+    }));
+  }, []);
+
+  const handleChangeAction = useCallback((stepIndex: number, action: string) => {
+    setCocktail((prev) => ({
+      ...prev,
+      recipe: prev.recipe.map((step, index) => {
+        if (index === stepIndex) {
+          return { ...step, action };
+        }
+        return step;
+      }),
+    }));
+  }, []);
+
+  const handleAddStep = useCallback(() => {
+    setCocktail((prev) => ({
+      ...prev,
+      recipe: [
+        ...prev.recipe,
+        {
+          action: 'pour',
+          ingredients: [
+            {
+              amount: '',
+              name: '',
+            },
+          ],
+        },
+      ],
+    }));
+  }, []);
+
+  if (!user.isLogged) {
+    return null;
+  }
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="lg">
       <Box
         sx={{
           marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
         }}
       >
         <Typography component="h1" variant="h5">
-          Create Cocktail
+          Add Cocktail
         </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="cocktail-name"
-                data-testid="cocktail-name"
-                label="Cocktail name"
-                name="email"
-              />
-            </Grid>
-          </Grid>
-          <Grid container justifyContent="flex-end">
-            <Grid item>
-              <Button type="submit" sx={{ mt: 3, mb: 2, mr: 2 }}>
-                Back
-              </Button>
-              <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-                Create
-              </Button>
-            </Grid>
-          </Grid>
-        </Box>
+        <CocktailForm
+          cocktail={cocktail}
+          user={user}
+          onChangeName={handleChangeName}
+          onChangeAction={handleChangeAction}
+          onAddIngredient={handleAddIngredient}
+          onAddStep={handleAddStep}
+        />
       </Box>
     </Container>
   );

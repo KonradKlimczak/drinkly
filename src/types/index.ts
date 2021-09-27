@@ -1,11 +1,11 @@
 export type Ingredient = {
   name: string;
-  amount: number;
+  amount: number | string;
   unit?: 'ml' | 'drops';
 };
 
 export type RecipeStep = {
-  action: 'shake' | 'garnish'| 'pour';
+  action: string;
   ingredients: Ingredient[];
 };
 
@@ -18,6 +18,12 @@ export type Cocktail = {
   views: number;
 };
 
+export type CocktailInput = {
+  name: string;
+  image?: string;
+  recipe: RecipeStep[];
+};
+
 export type SortType = 'MOST_POPULAR' | 'HIGHEST_RATING' | 'LOWEST_RATING';
 
 export type CocktailQuery = {
@@ -27,7 +33,7 @@ export type CocktailQuery = {
 };
 
 export type User = {
-  firstName: string;
+  username: string;
   lastName: string;
   email: string;
 };
