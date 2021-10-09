@@ -7,6 +7,7 @@ import { Login } from 'pages/Login';
 import { Provider } from 'react-redux';
 import { store } from 'redux/store';
 import { CreateCocktail } from 'pages/CreateCocktail';
+import { Cocktail } from 'pages/Cocktail';
 
 function App() {
   return (
@@ -22,6 +23,9 @@ function App() {
           </Route>
           <Route path="/createCocktail">
             <CreateCocktail />
+          </Route>
+          <Route path="/cocktail/:cocktailId">
+            <Cocktail />
           </Route>
           <Route path="/">
             <Home />

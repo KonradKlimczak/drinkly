@@ -2,6 +2,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
+import { Link as RouterLink } from 'react-router-dom';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Rating from '@mui/material/Rating';
@@ -16,8 +17,8 @@ export const CocktailCard = (props: CocktailCardProps) => {
   const { cocktail } = props;
 
   return (
-    <Grid item flex={1}>
-      <CardActionArea component="a" href="#">
+    <Grid item flex={1} >
+      <CardActionArea component={RouterLink} to={`/cocktail/${cocktail.id}`}>
         <Card sx={{ display: 'flex' }}>
           <CardMedia
             component="img"
