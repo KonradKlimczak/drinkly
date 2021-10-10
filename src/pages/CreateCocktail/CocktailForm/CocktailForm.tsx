@@ -1,4 +1,5 @@
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
+import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
@@ -7,6 +8,10 @@ import Typography from '@mui/material/Typography';
 import { ChangeEvent } from 'react';
 import { CocktailInput, User } from 'types';
 import { RecipeStepInputs } from './RecipeStepInputs';
+
+const Input = styled('input')({
+  display: 'none',
+});
 
 type CocktailFormProps = {
   cocktail: CocktailInput;
@@ -42,6 +47,8 @@ export const CocktailForm = (props: CocktailFormProps) => {
         </Grid>
         <Grid item xs={12} md={4} display="flex">
           <Box
+            component="label"
+            htmlFor="upload-cocktail-picture"
             sx={{
               p: 2,
               border: '1px dashed grey',
@@ -52,8 +59,11 @@ export const CocktailForm = (props: CocktailFormProps) => {
               flexGrow: 1,
             }}
           >
+            <Input accept="image/*" id="upload-cocktail-picture" type="file" />
             <InsertPhotoIcon />
-            <Button>Upload picture</Button>
+            <Button  component="span">
+              Upload picture
+            </Button>
           </Box>
         </Grid>
       </Grid>
@@ -72,7 +82,13 @@ export const CocktailForm = (props: CocktailFormProps) => {
           </Typography>
         </Box>
         {cocktail.recipe.map((step, stepIndex) => (
-          <RecipeStepInputs key={stepIndex} stepIndex={stepIndex} step={step} onChangeAction={onChangeAction} onAddIngredient={onAddIngredient} />
+          <RecipeStepInputs
+            key={stepIndex}
+            stepIndex={stepIndex}
+            step={step}
+            onChangeAction={onChangeAction}
+            onAddIngredient={onAddIngredient}
+          />
         ))}
       </Box>
       <Grid container justifyContent="space-between" mt={2}>
