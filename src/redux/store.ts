@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
+import { cocktailDetailsApi } from 'services/cocktail';
 
 import { watcherSaga } from './sagas';
 import { cocktailReducer } from './slices/cocktailSlice';
@@ -10,9 +11,10 @@ const sagaMiddleware = createSagaMiddleware();
 export const store = configureStore({
   reducer: {
     cocktail: cocktailReducer,
+    [cocktailDetailsApi.reducerPath]: cocktailDetailsApi.reducer,
     user: userReducer,
   },
-  middleware: [sagaMiddleware],
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(cocktailDetailsApi.middleware, sagaMiddleware),
 });
 sagaMiddleware.run(watcherSaga);
 
