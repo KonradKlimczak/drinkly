@@ -20,6 +20,7 @@ export const Login = () => {
 
     dispatch(
       setUser({
+        id: 't',
         username: 'Konrad',
         lastName: 'Klimczak',
         email: 'test@test.com',

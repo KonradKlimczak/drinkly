@@ -3,7 +3,7 @@ import LocalBarIcon from '@mui/icons-material/LocalBar';
 import { Link as RouterLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
-import { UserButton } from './UserButton';
+import { UserMenu } from './UserMenu';
 
 export const ApplicationBar = () => {
   const user = useSelector((state: RootState) => state.user.user);
@@ -25,7 +25,7 @@ export const ApplicationBar = () => {
             <Button component={RouterLink} to="/createCocktail" variant="contained" sx={{ my: 1, mx: 1.5 }}>
               Add new Cocktail
             </Button>
-            <UserButton user={user} />
+            <UserMenu user={user} />
           </>
         ) : (
           <>

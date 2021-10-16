@@ -12,6 +12,7 @@ import { useGetCocktailByIdQuery } from 'services/cocktail';
 import Typography from '@mui/material/Typography';
 import { useCallback, useState } from 'react';
 import { CocktailStepIcon } from 'components/Icon';
+import { Comment } from 'components/Comment';
 
 export const Cocktail = () => {
   const { cocktailId } = useParams<{ cocktailId: string }>();
@@ -29,14 +30,15 @@ export const Cocktail = () => {
   const cocktail = data.data;
 
   return (
-    <Container component="main" maxWidth="lg">
-      <Grid container component="main" sx={{ height: '100vh' }}>
+    <Container component="main" maxWidth="xl">
+      <Grid container component="main">
         <Grid
           item
           xs={false}
           sm={4}
           md={5}
           sx={{
+            height: 600,
             backgroundImage: `url(${data.data?.image})`,
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) => (t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900]),
@@ -84,6 +86,13 @@ export const Cocktail = () => {
               </ButtonGroup>
             </Paper>
           </div>
+        </Grid>
+        <Grid item xs={12} sx={{ marginTop: 2 }}>
+          <Typography component="h3" variant="h6">
+            Comments
+          </Typography>
+          <Comment />
+          <Comment />
         </Grid>
       </Grid>
     </Container>

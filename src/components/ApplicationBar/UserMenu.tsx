@@ -1,20 +1,18 @@
-import { MouseEvent, useState } from 'react';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import Divider from '@mui/material/Divider';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import Avatar from '@mui/material/Avatar';
-import { User } from 'types';
-import { getInitials, getStringToColor } from 'utils/avatar';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { Box } from '@mui/system';
-import Divider from '@mui/material/Divider';
-import { logout } from 'redux/slices/userSlice';
+import { UserButton } from 'components/UserButton';
+import { MouseEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { logout } from 'redux/slices/userSlice';
+import { User } from 'types';
 
-type UserButtonProps = {
+type UserMenuProps = {
   user: User;
 };
 
-export const UserButton = (props: UserButtonProps) => {
+export const UserMenu = (props: UserMenuProps) => {
   const { user } = props;
   const dispatch = useDispatch();
 
@@ -33,15 +31,7 @@ export const UserButton = (props: UserButtonProps) => {
 
   return (
     <>
-      <Box onClick={handleClick} sx={{ cursor: 'pointer' }}>
-        <Avatar
-          sx={{
-            bgcolor: getStringToColor(user.username + user.lastName),
-          }}
-        >
-          {getInitials(user.username, user.lastName)}
-        </Avatar>
-      </Box>
+      <UserButton user={user} onClick={handleClick} />
       <ArrowDropDownIcon fontSize="small" />
       <Menu id="user-menu" anchorEl={anchorEl} open={open} onClose={handleClose}>
         <MenuItem onClick={handleClose}>Your profile</MenuItem>

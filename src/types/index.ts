@@ -1,3 +1,21 @@
+export type User = {
+  id: string;
+  username: string;
+  lastName: string;
+  email: string;
+};
+
+export type Comment = {
+  id: string;
+  text: string;
+  createDateTime: string;
+  updateDateTime?: string;
+  author: {
+    id: string;
+    username: string;
+  };
+};
+
 export type Ingredient = {
   name: string;
   amount: number | string;
@@ -16,6 +34,7 @@ export type Cocktail = {
   image: string;
   recipe: RecipeStep[];
   views: number;
+  authorId: string;
 };
 
 export type CocktailInput = {
@@ -30,10 +49,4 @@ export type CocktailQuery = {
   name: string;
   sortType: SortType;
   ingredients: string[];
-};
-
-export type User = {
-  username: string;
-  lastName: string;
-  email: string;
 };
