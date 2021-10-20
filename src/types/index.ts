@@ -34,7 +34,10 @@ export type Cocktail = {
   image: string;
   recipe: RecipeStep[];
   views: number;
-  authorId: string;
+  author: {
+    id: string;
+    username: string;
+  };
 };
 
 export type CocktailInput = {

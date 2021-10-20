@@ -1,30 +1,23 @@
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import Container from '@mui/material/Container';
+import { useState } from 'react';
 import { useParams } from 'react-router';
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
-import LocalBarIcon from '@mui/icons-material/LocalBar';
-import Paper from '@mui/material/Paper';
-import Badge from '@mui/material/Badge';
+import { Link as RouterLink } from 'react-router-dom';
+
+import Link from '@mui/material/Link';
+import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import { useGetCocktailByIdQuery } from 'services/cocktail';
 import Typography from '@mui/material/Typography';
-import { useCallback, useState } from 'react';
-import { CocktailStepIcon } from 'components/Icon';
+
 import { Comment } from 'components/Comment';
+import { CocktailStepIcon } from 'components/Icon';
+import { useGetCocktailByIdQuery } from 'services/cocktail';
+import { DrinkCounter } from 'components/DrinkCounter';
+import Box from '@mui/system/Box';
+import Rating from '@mui/material/Rating';
 
 export const Cocktail = () => {
   const { cocktailId } = useParams<{ cocktailId: string }>();
 
   const [multiplier, setMultiplier] = useState(1);
-
-  const handleMinus = useCallback(() => {
-    setMultiplier((prev) => prev - 1 || 1);
-  }, []);
-  const handlePlus = useCallback(() => {
-    setMultiplier((prev) => prev + 1);
-  }, []);
 
   const data = useGetCocktailByIdQuery(cocktailId);
   const cocktail = data.data;
@@ -47,11 +40,37 @@ export const Cocktail = () => {
           }}
         />
 
-        <Grid item xs={12} sm={8} md={7} sx={{ padding: 1 }}>
-          <Typography component="h2" variant="h5">
-            {cocktail?.name}
-          </Typography>
-          <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+        <Grid item xs={12} sm={8} md={7} sx={{ padding: 2 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+            <Box>
+              <Typography component="h2" variant="h5">
+                {cocktail?.name}
+              </Typography>
+              <Typography variant="subtitle2">
+                by{' '}
+                <Link component={RouterLink} to={`/user/${cocktail?.author.username}`}>
+                  {cocktail?.author.username}
+                </Link>
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                color="text.secondary"
+                sx={{ display: 'inline-flex', alignItems: 'center' }}
+              >
+                <Rating
+                  data-testid="cocktail-rating"
+                  precision={0.1}
+                  name={`${cocktail?.id}-rating`}
+                  value={cocktail?.rating}
+                  readOnly
+                  sx={{ marginRight: 0.5 }}
+                />
+                {cocktail?.rating}
+              </Typography>
+            </Box>
+            <DrinkCounter counter={multiplier} onChange={setMultiplier} />
+          </Box>
+          <div style={{ display: 'flex', alignItems: 'flex-start', marginTop: 10 }}>
             <div>
               {cocktail?.recipe.map((step, index) => (
                 <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
@@ -72,19 +91,6 @@ export const Cocktail = () => {
                 </div>
               ))}
             </div>
-            <Paper elevation={1} sx={{ marginLeft: 3, padding: 2, display: 'inline-flex', alignItems: 'center' }}>
-              <Badge badgeContent={multiplier} color="primary" sx={{ marginRight: 3 }}>
-                <LocalBarIcon color="action" />
-              </Badge>
-              <ButtonGroup disableElevation variant="contained">
-                <Button onClick={handleMinus}>
-                  <RemoveIcon />
-                </Button>
-                <Button onClick={handlePlus}>
-                  <AddIcon />
-                </Button>
-              </ButtonGroup>
-            </Paper>
           </div>
         </Grid>
         <Grid item xs={12} sx={{ marginTop: 2 }}>
