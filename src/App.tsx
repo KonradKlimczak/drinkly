@@ -8,31 +8,34 @@ import { Provider } from 'react-redux';
 import { store } from 'redux/store';
 import { CreateCocktail } from 'pages/CreateCocktail';
 import { Cocktail } from 'pages/Cocktail';
+import { ApolloProvider } from 'providers';
 
 function App() {
   return (
-    <Provider store={store}>
-      <Router>
-        <ApplicationBar />
-        <Switch>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/createAccount">
-            <CreateAccount />
-          </Route>
-          <Route path="/createCocktail">
-            <CreateCocktail />
-          </Route>
-          <Route path="/cocktail/:cocktailId">
-            <Cocktail />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
-      </Router>
-    </Provider>
+    <ApolloProvider>
+      <Provider store={store}>
+        <Router>
+          <ApplicationBar />
+          <Switch>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route path="/createAccount">
+              <CreateAccount />
+            </Route>
+            <Route path="/createCocktail">
+              <CreateCocktail />
+            </Route>
+            <Route path="/cocktail/:cocktailId">
+              <Cocktail />
+            </Route>
+            <Route path="/">
+              <Home />
+            </Route>
+          </Switch>
+        </Router>
+      </Provider>
+    </ApolloProvider>
   );
 }
 

@@ -1,0 +1,24 @@
+query GetCocktails($name: String, $ingredients: [String]) {
+  getCocktails(name: $name, ingredients: $ingredients) {
+    id
+    name
+    image
+    description
+    author {
+      username
+      email
+      avatar
+    }
+    recipe {
+      steps {
+        action
+        ingredients {
+          ingredient
+          amount
+          unit
+          optional
+        }
+      }
+    }
+  }
+}
