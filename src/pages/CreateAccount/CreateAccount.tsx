@@ -9,17 +9,47 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
+import { useCreateAccountMutation } from 'generated/graphql';
+import { useState } from 'react';
+import { getEmailError, getUsernameError } from './utils';
+
+type FormErrors = {
+  username?: string;
+  email?: string;
+  password?: string;
+};
 
 export const CreateAccount = () => {
+  const history = useHistory();
+
+  const [createAccount] = useCreateAccountMutation();
+
+  const [errors, setErrors] = useState<FormErrors>({});
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const username = data.get('username') as string;
+    const email = data.get('email') as string;
+
+    createAccount({
+      variables: {
+        username,
+        email,
+        password: data.get('password') as string,
+      },
+    })
+      .then(() => {
+        history.push('/');
+      })
+      .catch((error) => {
+        setErrors({
+          username: getUsernameError(error, username),
+          email: getEmailError(error, email),
+        });
+      });
   };
 
   return (
@@ -40,27 +70,18 @@ export const CreateAccount = () => {
         </Typography>
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField
-                autoComplete="fname"
-                name="firstName"
+                autoComplete="name"
+                name="username"
                 required
                 fullWidth
-                id="firstName"
-                data-testid="first-name"
-                label="First Name"
+                id="username"
+                data-testid="user-name"
+                label="Username"
                 autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                id="lastName"
-                data-testid="last-name"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
+                error={Boolean(errors.username)}
+                helperText={errors.username}
               />
             </Grid>
             <Grid item xs={12}>
@@ -72,6 +93,8 @@ export const CreateAccount = () => {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                error={Boolean(errors.email)}
+                helperText={errors.email}
               />
             </Grid>
             <Grid item xs={12}>

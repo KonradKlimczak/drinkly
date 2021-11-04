@@ -109,9 +109,29 @@ export type User = {
   username: Scalars['String'];
 };
 
+export type CreateAccountMutationVariables = Exact<{
+  username: Scalars['String'];
+  email: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+export type CreateAccountMutation = {
+  __typename?: 'Mutation';
+  createAccount: {
+    __typename?: 'User';
+    id: string;
+    username: string;
+    email: string;
+    avatar?: string | null | undefined;
+  };
+};
+
 export type GetCocktailsQueryVariables = Exact<{
   name?: Maybe<Scalars['String']>;
   ingredients?: Maybe<Array<Maybe<Scalars['String']>> | Maybe<Scalars['String']>>;
+  skip?: Maybe<Scalars['Int']>;
+  take?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<SortBy>;
 }>;
 
 export type GetCocktailsQuery = {
@@ -122,9 +142,11 @@ export type GetCocktailsQuery = {
     name: string;
     image: string;
     description: string;
-    author: { __typename?: 'User'; username: string; email: string; avatar?: string | null | undefined };
+    score?: number | null | undefined;
+    author: { __typename?: 'User'; id: string; username: string; email: string; avatar?: string | null | undefined };
     recipe: {
       __typename?: 'Recipe';
+      id: string;
       steps: Array<{
         __typename?: 'RecipeStep';
         action: string;
@@ -140,19 +162,75 @@ export type GetCocktailsQuery = {
   }>;
 };
 
+export type GetIngredientsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetIngredientsQuery = { __typename?: 'Query'; getIngredients: Array<string> };
+
+export type LoginMutationVariables = Exact<{
+  email: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+export type LoginMutation = { __typename?: 'Mutation'; login: string };
+
+export const CreateAccountDocument = gql`
+  mutation createAccount($username: String!, $email: String!, $password: String!) {
+    createAccount(username: $username, email: $email, password: $password) {
+      id
+      username
+      email
+      avatar
+    }
+  }
+`;
+export type CreateAccountMutationFn = Apollo.MutationFunction<CreateAccountMutation, CreateAccountMutationVariables>;
+
+/**
+ * __useCreateAccountMutation__
+ *
+ * To run a mutation, you first call `useCreateAccountMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateAccountMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createAccountMutation, { data, loading, error }] = useCreateAccountMutation({
+ *   variables: {
+ *      username: // value for 'username'
+ *      email: // value for 'email'
+ *      password: // value for 'password'
+ *   },
+ * });
+ */
+export function useCreateAccountMutation(
+  baseOptions?: Apollo.MutationHookOptions<CreateAccountMutation, CreateAccountMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<CreateAccountMutation, CreateAccountMutationVariables>(CreateAccountDocument, options);
+}
+export type CreateAccountMutationHookResult = ReturnType<typeof useCreateAccountMutation>;
+export type CreateAccountMutationResult = Apollo.MutationResult<CreateAccountMutation>;
+export type CreateAccountMutationOptions = Apollo.BaseMutationOptions<
+  CreateAccountMutation,
+  CreateAccountMutationVariables
+>;
 export const GetCocktailsDocument = gql`
-  query GetCocktails($name: String, $ingredients: [String]) {
-    getCocktails(name: $name, ingredients: $ingredients) {
+  query GetCocktails($name: String, $ingredients: [String], $skip: Int, $take: Int, $sortBy: SortBy) {
+    getCocktails(name: $name, ingredients: $ingredients, skip: $skip, take: $take, sortBy: $sortBy) {
       id
       name
       image
       description
       author {
+        id
         username
         email
         avatar
       }
       recipe {
+        id
         steps {
           action
           ingredients {
@@ -163,6 +241,7 @@ export const GetCocktailsDocument = gql`
           }
         }
       }
+      score
     }
   }
 `;
@@ -181,6 +260,9 @@ export const GetCocktailsDocument = gql`
  *   variables: {
  *      name: // value for 'name'
  *      ingredients: // value for 'ingredients'
+ *      skip: // value for 'skip'
+ *      take: // value for 'take'
+ *      sortBy: // value for 'sortBy'
  *   },
  * });
  */
@@ -199,3 +281,71 @@ export function useGetCocktailsLazyQuery(
 export type GetCocktailsQueryHookResult = ReturnType<typeof useGetCocktailsQuery>;
 export type GetCocktailsLazyQueryHookResult = ReturnType<typeof useGetCocktailsLazyQuery>;
 export type GetCocktailsQueryResult = Apollo.QueryResult<GetCocktailsQuery, GetCocktailsQueryVariables>;
+export const GetIngredientsDocument = gql`
+  query GetIngredients {
+    getIngredients
+  }
+`;
+
+/**
+ * __useGetIngredientsQuery__
+ *
+ * To run a query within a React component, call `useGetIngredientsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetIngredientsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetIngredientsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetIngredientsQuery(
+  baseOptions?: Apollo.QueryHookOptions<GetIngredientsQuery, GetIngredientsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetIngredientsQuery, GetIngredientsQueryVariables>(GetIngredientsDocument, options);
+}
+export function useGetIngredientsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GetIngredientsQuery, GetIngredientsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetIngredientsQuery, GetIngredientsQueryVariables>(GetIngredientsDocument, options);
+}
+export type GetIngredientsQueryHookResult = ReturnType<typeof useGetIngredientsQuery>;
+export type GetIngredientsLazyQueryHookResult = ReturnType<typeof useGetIngredientsLazyQuery>;
+export type GetIngredientsQueryResult = Apollo.QueryResult<GetIngredientsQuery, GetIngredientsQueryVariables>;
+export const LoginDocument = gql`
+  mutation Login($email: String!, $password: String!) {
+    login(email: $email, password: $password)
+  }
+`;
+export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
+
+/**
+ * __useLoginMutation__
+ *
+ * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [loginMutation, { data, loading, error }] = useLoginMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *      password: // value for 'password'
+ *   },
+ * });
+ */
+export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
+}
+export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
+export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;

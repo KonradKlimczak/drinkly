@@ -7,18 +7,19 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 type SearchByIngredientsProps = {
   value: string[];
+  ingredients: string[];
   onChange: (value: string[]) => void;
 };
 
 export const SearchByIngredients = (props: SearchByIngredientsProps) => {
-  const { value, onChange } = props;
+  const { value, ingredients, onChange } = props;
 
   return (
     <Autocomplete
       multiple
       disableCloseOnSelect
       id="search-by-ingredients"
-      options={INGREDIENTS}
+      options={ingredients}
       fullWidth
       value={value}
       onChange={(event: SyntheticEvent, newValue: string[]) => {
@@ -41,16 +42,3 @@ export const SearchByIngredients = (props: SearchByIngredientsProps) => {
     />
   );
 };
-
-const INGREDIENTS: string[] = [
-  'Whiskey Rye',
-  'Simple Syrup',
-  'Lemon Juice',
-  'Egg',
-  'Angostura Bitters',
-  'Gin',
-  'Creme of Coconut',
-  'Pineapple Juice',
-  'Pineapple Chunk',
-  'Rum',
-];

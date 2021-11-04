@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import CircularProgress from '@mui/material/CircularProgress';
@@ -7,21 +7,25 @@ import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 
 import { CocktailCard } from 'components/CocktailCard';
-import { getCocktails } from 'redux/sagas/actions/cocktail';
 import { setQuery } from 'redux/slices/cocktailSlice';
 import { RootState } from 'redux/store';
 import { CocktailQuery } from 'types';
 import { CocktailSearch } from './CocktailSearch';
+import { Direction, SortField, useGetCocktailsQuery, useGetIngredientsQuery } from 'generated/graphql';
 
 export const Home = () => {
   const dispatch = useDispatch();
 
   const query = useSelector((state: RootState) => state.cocktail.query);
-  const cocktails = useSelector((state: RootState) => state.cocktail.cocktails);
 
-  useEffect(() => {
-    dispatch(getCocktails(query));
-  }, [query, dispatch]);
+  const { data: cocktailsQuery } = useGetCocktailsQuery({
+    variables: { ...query, skip: 0, take: 10, sortBy: { field: SortField.Name, direction: Direction.Asc } },
+  });
+
+  const { data: ingredientsQuery } = useGetIngredientsQuery({});
+
+  const cocktails = useMemo(() => cocktailsQuery?.getCocktails, [cocktailsQuery?.getCocktails]);
+  const ingredients = useMemo(() => ingredientsQuery?.getIngredients, [ingredientsQuery?.getIngredients]);
 
   const handleChangeSearch = useCallback(
     (query: CocktailQuery) => {
@@ -32,7 +36,7 @@ export const Home = () => {
 
   return (
     <Container maxWidth="xl" component="main" sx={{ marginTop: 1 }}>
-      <CocktailSearch search={query} onChange={handleChangeSearch} />
+      <CocktailSearch search={query} ingredients={ingredients ?? []} onChange={handleChangeSearch} />
 
       {typeof cocktails === 'undefined' && (
         <Stack sx={{ color: 'grey.500' }} spacing={2} direction="row" justifyContent="center" mt={3}>

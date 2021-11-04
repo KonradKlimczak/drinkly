@@ -12,11 +12,12 @@ import { SearchByIngredients } from './SearchByIngredients';
 
 type CocktailSearchProps = {
   search: CocktailQuery;
+  ingredients: string[];
   onChange: (query: CocktailQuery) => void;
 };
 
 export const CocktailSearch = (props: CocktailSearchProps) => {
-  const { search, onChange } = props;
+  const { search, ingredients, onChange } = props;
 
   const handleChangeName = (event: ChangeEvent<HTMLInputElement>) => {
     onChange({ ...search, name: event.target.value });
@@ -44,7 +45,7 @@ export const CocktailSearch = (props: CocktailSearchProps) => {
         />
       </Grid>
       <Grid item xs={12} sm={8}>
-        <SearchByIngredients value={search.ingredients} onChange={handleChangeIngredients} />
+        <SearchByIngredients value={search.ingredients} ingredients={ingredients} onChange={handleChangeIngredients} />
       </Grid>
       <Grid item xs={12} sm={4}>
         <FormControl size="small" fullWidth>

@@ -6,8 +6,11 @@ import { Link as RouterLink } from 'react-router-dom';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Rating from '@mui/material/Rating';
-import { Cocktail } from 'types';
 import { CocktailStepIcon } from 'components/Icon';
+import { Unpacked } from 'generated/types';
+import { GetCocktailsQuery } from 'generated/graphql';
+
+type Cocktail = Unpacked<GetCocktailsQuery['getCocktails']>;
 
 type CocktailCardProps = {
   cocktail: Cocktail;
@@ -17,7 +20,7 @@ export const CocktailCard = (props: CocktailCardProps) => {
   const { cocktail } = props;
 
   return (
-    <Grid item flex={1} >
+    <Grid item flex={1}>
       <CardActionArea component={RouterLink} to={`/cocktail/${cocktail.id}`}>
         <Card sx={{ display: 'flex' }}>
           <CardMedia
@@ -35,21 +38,21 @@ export const CocktailCard = (props: CocktailCardProps) => {
                 data-testid="cocktail-rating"
                 precision={0.1}
                 name={`${cocktail.id}-rating`}
-                value={cocktail.rating}
+                value={cocktail.score}
                 readOnly
               />
             </Typography>
-            {cocktail.recipe.map((step, index) => (
+            {cocktail.recipe.steps.map((step, index) => (
               <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
                 <CocktailStepIcon icon={step.action} />
                 <div style={{ display: 'flex' }}>
                   {step.ingredients.map((ingredient) => (
-                    <div key={ingredient.name} style={{ padding: 8 }}>
+                    <div key={ingredient.ingredient} style={{ padding: 8 }}>
                       <Typography variant="body2" component="div" display="flex" justifyContent="center">
                         {ingredient.amount} {ingredient.unit}
                       </Typography>
                       <Typography variant="subtitle2" component="div">
-                        {ingredient.name}
+                        {ingredient.ingredient}
                       </Typography>
                     </div>
                   ))}

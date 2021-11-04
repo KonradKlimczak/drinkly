@@ -1,15 +1,17 @@
-query GetCocktails($name: String, $ingredients: [String]) {
-  getCocktails(name: $name, ingredients: $ingredients) {
+query GetCocktails($name: String, $ingredients: [String], $skip: Int, $take: Int, $sortBy: SortBy) {
+  getCocktails(name: $name, ingredients: $ingredients, skip: $skip, take: $take, sortBy: $sortBy) {
     id
     name
     image
     description
     author {
+      id
       username
       email
       avatar
     }
     recipe {
+      id
       steps {
         action
         ingredients {
@@ -20,5 +22,6 @@ query GetCocktails($name: String, $ingredients: [String]) {
         }
       }
     }
+    score
   }
 }

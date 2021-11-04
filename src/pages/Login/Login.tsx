@@ -10,23 +10,28 @@ import Container from '@mui/material/Container';
 import { Link as RouterLink, useHistory } from 'react-router-dom';
 import { setUser } from 'redux/slices/userSlice';
 import { useDispatch } from 'react-redux';
+import { useLoginMutation } from 'generated/graphql';
 
 export const Login = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const [login] = useLoginMutation();
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const data = new FormData(event.currentTarget);
 
-    dispatch(
-      setUser({
-        id: 't',
-        username: 'Konrad',
-        lastName: 'Klimczak',
-        email: 'test@test.com',
-      })
-    );
-    history.push('/');
+    const email = data.get('email') as string;
+    const password = data.get('password') as string;
+    login({
+      variables: {
+        email,
+        password,
+      },
+    })
+      .then(console.log)
+      .catch(console.error);
   };
 
   return (
