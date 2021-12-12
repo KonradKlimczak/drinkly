@@ -12,6 +12,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  Amout: any;
 };
 
 export type Cocktail = {
@@ -21,8 +22,9 @@ export type Cocktail = {
   id: Scalars['ID'];
   image: Scalars['String'];
   name: Scalars['String'];
-  recipe: Recipe;
+  recipe: Array<RecipeStep>;
   score?: Maybe<Scalars['Float']>;
+  views?: Maybe<Scalars['Int']>;
 };
 
 export enum Direction {
@@ -54,16 +56,12 @@ export type MutationRefreshTokenArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  getAuthorCocktails: Array<Cocktail>;
-  getCocktails: Array<Cocktail>;
-  getIngredients: Array<Scalars['String']>;
+  cocktails: Array<Cocktail>;
+  ingredients: Array<Scalars['String']>;
 };
 
-export type QueryGetAuthorCocktailsArgs = {
-  userId: Scalars['String'];
-};
-
-export type QueryGetCocktailsArgs = {
+export type QueryCocktailsArgs = {
+  authorId?: Maybe<Scalars['String']>;
   ingredients?: Maybe<Array<Maybe<Scalars['String']>>>;
   name?: Maybe<Scalars['String']>;
   skip?: Maybe<Scalars['Int']>;
@@ -71,16 +69,11 @@ export type QueryGetCocktailsArgs = {
   take?: Maybe<Scalars['Int']>;
 };
 
-export type Recipe = {
-  __typename?: 'Recipe';
-  id: Scalars['ID'];
-  steps: Array<RecipeStep>;
-};
-
 export type RecipeIngredient = {
   __typename?: 'RecipeIngredient';
-  amount: Scalars['Float'];
-  ingredient: Scalars['String'];
+  amount?: Maybe<Scalars['Amout']>;
+  id: Scalars['ID'];
+  name: Scalars['String'];
   optional?: Maybe<Scalars['Boolean']>;
   unit?: Maybe<Scalars['String']>;
 };
@@ -88,7 +81,9 @@ export type RecipeIngredient = {
 export type RecipeStep = {
   __typename?: 'RecipeStep';
   action: Scalars['String'];
-  ingredients: Array<RecipeIngredient>;
+  endAction?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  ingredients?: Maybe<Array<RecipeIngredient>>;
 };
 
 export type SortBy = {
@@ -136,7 +131,7 @@ export type GetCocktailsQueryVariables = Exact<{
 
 export type GetCocktailsQuery = {
   __typename?: 'Query';
-  getCocktails: Array<{
+  cocktails: Array<{
     __typename?: 'Cocktail';
     id: string;
     name: string;
@@ -144,27 +139,28 @@ export type GetCocktailsQuery = {
     description: string;
     score?: number | null | undefined;
     author: { __typename?: 'User'; id: string; username: string; email: string; avatar?: string | null | undefined };
-    recipe: {
-      __typename?: 'Recipe';
-      id: string;
-      steps: Array<{
-        __typename?: 'RecipeStep';
-        action: string;
-        ingredients: Array<{
-          __typename?: 'RecipeIngredient';
-          ingredient: string;
-          amount: number;
-          unit?: string | null | undefined;
-          optional?: boolean | null | undefined;
-        }>;
-      }>;
-    };
+    recipe: Array<{
+      __typename?: 'RecipeStep';
+      action: string;
+      endAction?: string | null | undefined;
+      ingredients?:
+        | Array<{
+            __typename?: 'RecipeIngredient';
+            id: string;
+            name: string;
+            amount?: any | null | undefined;
+            unit?: string | null | undefined;
+            optional?: boolean | null | undefined;
+          }>
+        | null
+        | undefined;
+    }>;
   }>;
 };
 
 export type GetIngredientsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetIngredientsQuery = { __typename?: 'Query'; getIngredients: Array<string> };
+export type GetIngredientsQuery = { __typename?: 'Query'; ingredients: Array<string> };
 
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
@@ -218,7 +214,7 @@ export type CreateAccountMutationOptions = Apollo.BaseMutationOptions<
 >;
 export const GetCocktailsDocument = gql`
   query GetCocktails($name: String, $ingredients: [String], $skip: Int, $take: Int, $sortBy: SortBy) {
-    getCocktails(name: $name, ingredients: $ingredients, skip: $skip, take: $take, sortBy: $sortBy) {
+    cocktails(name: $name, ingredients: $ingredients, skip: $skip, take: $take, sortBy: $sortBy) {
       id
       name
       image
@@ -230,16 +226,15 @@ export const GetCocktailsDocument = gql`
         avatar
       }
       recipe {
-        id
-        steps {
-          action
-          ingredients {
-            ingredient
-            amount
-            unit
-            optional
-          }
+        action
+        ingredients {
+          id
+          name
+          amount
+          unit
+          optional
         }
+        endAction
       }
       score
     }
@@ -283,7 +278,7 @@ export type GetCocktailsLazyQueryHookResult = ReturnType<typeof useGetCocktailsL
 export type GetCocktailsQueryResult = Apollo.QueryResult<GetCocktailsQuery, GetCocktailsQueryVariables>;
 export const GetIngredientsDocument = gql`
   query GetIngredients {
-    getIngredients
+    ingredients
   }
 `;
 

@@ -10,7 +10,7 @@ import { CocktailStepIcon } from 'components/Icon';
 import { Unpacked } from 'generated/types';
 import { GetCocktailsQuery } from 'generated/graphql';
 
-type Cocktail = Unpacked<GetCocktailsQuery['getCocktails']>;
+type Cocktail = Unpacked<GetCocktailsQuery['cocktails']>;
 
 type CocktailCardProps = {
   cocktail: Cocktail;
@@ -25,12 +25,12 @@ export const CocktailCard = (props: CocktailCardProps) => {
         <Card sx={{ display: 'flex' }}>
           <CardMedia
             component="img"
-            sx={{ width: 160, display: { xs: 'none', sm: 'block' } }}
+            sx={{ width: 320, display: { xs: 'none', sm: 'block' } }}
             image={cocktail.image}
             alt={cocktail.name}
           />
           <CardContent sx={{ flex: 1 }}>
-            <Typography component="h2" variant="h5">
+            <Typography component="h2" variant="h5" sx={{ fontSize: '1.75rem', fontWeight: 500 }}>
               {cocktail.name}
             </Typography>
             <Typography variant="subtitle1" color="text.secondary">
@@ -42,21 +42,37 @@ export const CocktailCard = (props: CocktailCardProps) => {
                 readOnly
               />
             </Typography>
-            {cocktail.recipe.steps.map((step, index) => (
+            {cocktail.recipe.map((step, index) => (
               <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
-                <CocktailStepIcon icon={step.action} />
-                <div style={{ display: 'flex' }}>
-                  {step.ingredients.map((ingredient) => (
-                    <div key={ingredient.ingredient} style={{ padding: 8 }}>
-                      <Typography variant="body2" component="div" display="flex" justifyContent="center">
-                        {ingredient.amount} {ingredient.unit}
-                      </Typography>
-                      <Typography variant="subtitle2" component="div">
-                        {ingredient.ingredient}
-                      </Typography>
-                    </div>
-                  ))}
+                <div style={{ width: 50, height: 50, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <CocktailStepIcon icon={step.action} />
                 </div>
+                {step.ingredients && (
+                  <div style={{ display: 'flex' }}>
+                    {step.ingredients.map((ingredient) => (
+                      <div key={ingredient.id} style={{ padding: 8, display: 'flex', flexDirection: 'column-reverse' }}>
+                        <Typography
+                          variant="body2"
+                          component="div"
+                          display="flex"
+                          sx={{ fontSize: '1.25rem' }}
+                        >
+                          {ingredient.amount} {ingredient.unit}
+                        </Typography>
+                        <Typography variant="subtitle2" component="div">
+                          {ingredient.name}
+                        </Typography>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {step.endAction && (
+                  <div
+                    style={{ width: 50, height: 50, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                  >
+                    <CocktailStepIcon icon={step.endAction} />
+                  </div>
+                )}
               </div>
             ))}
           </CardContent>

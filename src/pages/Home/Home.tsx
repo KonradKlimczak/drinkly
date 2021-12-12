@@ -24,8 +24,8 @@ export const Home = () => {
 
   const { data: ingredientsQuery } = useGetIngredientsQuery({});
 
-  const cocktails = useMemo(() => cocktailsQuery?.getCocktails, [cocktailsQuery?.getCocktails]);
-  const ingredients = useMemo(() => ingredientsQuery?.getIngredients, [ingredientsQuery?.getIngredients]);
+  const cocktails = useMemo(() => cocktailsQuery?.cocktails, [cocktailsQuery?.cocktails]);
+  const ingredients = useMemo(() => ingredientsQuery?.ingredients, [ingredientsQuery?.ingredients]);
 
   const handleChangeSearch = useCallback(
     (query: CocktailQuery) => {
