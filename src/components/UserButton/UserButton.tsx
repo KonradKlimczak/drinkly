@@ -2,12 +2,12 @@ import { memo, MouseEvent } from 'react';
 
 import Avatar from '@mui/material/Avatar';
 import { Box } from '@mui/system';
+import { User } from '@auth0/auth0-spa-js';
 
-import { User } from 'types';
 import { getInitials, getStringToColor } from 'utils/avatar';
 
 type UserButtonProps = {
-  user: User;
+  user?: User;
   onClick: (event: MouseEvent<HTMLDivElement>) => void;
 };
 
@@ -17,11 +17,12 @@ const UserButtonInner = (props: UserButtonProps) => {
   return (
     <Box sx={{ cursor: 'pointer' }} onClick={onClick}>
       <Avatar
+        src={user?.picture}
         sx={{
-          bgcolor: getStringToColor(user.username + user.lastName),
+          bgcolor: getStringToColor(user?.given_name ?? '' + user?.family_name ?? ''),
         }}
       >
-        {getInitials(user.username, user.lastName)}
+        {!user?.picture && user?.given_name && user?.family_name && getInitials(user?.given_name, user?.family_name)}
       </Avatar>
     </Box>
   );

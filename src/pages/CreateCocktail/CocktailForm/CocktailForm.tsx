@@ -6,7 +6,8 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { ChangeEvent } from 'react';
-import { CocktailInput, User } from 'types';
+import { CocktailInput } from 'types';
+import { User } from '@auth0/auth0-spa-js';
 import { RecipeStepInputs } from './RecipeStepInputs';
 
 const Input = styled('input')({
@@ -43,7 +44,7 @@ export const CocktailForm = (props: CocktailFormProps) => {
             name="name"
             sx={{ marginBottom: 2 }}
           />
-          <TextField fullWidth disabled value={user.username} data-testid="author-input" label="Author" />
+          <TextField fullWidth disabled value={user.nickname} data-testid="author-input" label="Author" />
         </Grid>
         <Grid item xs={12} md={4} display="flex">
           <Box
@@ -61,9 +62,7 @@ export const CocktailForm = (props: CocktailFormProps) => {
           >
             <Input accept="image/*" id="upload-cocktail-picture" type="file" />
             <InsertPhotoIcon />
-            <Button  component="span">
-              Upload picture
-            </Button>
+            <Button component="span">Upload picture</Button>
           </Box>
         </Grid>
       </Grid>

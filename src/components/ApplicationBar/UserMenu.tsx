@@ -1,33 +1,28 @@
+import { useAuth0 } from '@auth0/auth0-react';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import Divider from '@mui/material/Divider';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { UserButton } from 'components/UserButton';
 import { MouseEvent, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { logout } from 'redux/slices/userSlice';
-import { User } from 'types';
 
-type UserMenuProps = {
-  user: User;
-};
-
-export const UserMenu = (props: UserMenuProps) => {
-  const { user } = props;
-  const dispatch = useDispatch();
+export const UserMenu = () => {
+  const { user, logout } = useAuth0();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event: MouseEvent<HTMLDivElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleLogout = () => {
-    dispatch(logout());
-    setAnchorEl(null);
-  };
+
+  const handleLogout = () =>
+    logout({
+      returnTo: window.location.origin,
+    });
 
   return (
     <>

@@ -1,28 +1,18 @@
+import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import { useCallback, useState } from 'react';
+import { Standby } from 'components/Standby/Standby';
+import { memo, useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
 import { CocktailInput } from 'types';
 import { CocktailForm } from './CocktailForm';
+import { INITIAL_COCKTAIL } from './constants';
 
-export const CreateCocktail = () => {
-  const [cocktail, setCocktail] = useState<CocktailInput>({
-    name: '',
-    recipe: [
-      {
-        action: 'shake',
-        ingredients: [
-          {
-            amount: '',
-            name: '',
-          },
-        ],
-      },
-    ],
-  });
-  const user = useSelector((state: RootState) => state.user.user);
+const CreateCocktailInner = () => {
+  const [cocktail, setCocktail] = useState<CocktailInput>(INITIAL_COCKTAIL);
+  const { user } = useAuth0();
 
   const handleChangeName = useCallback((name: string) => {
     setCocktail((prev) => ({
@@ -73,10 +63,6 @@ export const CreateCocktail = () => {
     }));
   }, []);
 
-  if (!user.isLogged) {
-    return null;
-  }
-
   return (
     <Container component="main" maxWidth="lg">
       <Box
@@ -89,7 +75,7 @@ export const CreateCocktail = () => {
         </Typography>
         <CocktailForm
           cocktail={cocktail}
-          user={user}
+          user={user!}
           onChangeName={handleChangeName}
           onChangeAction={handleChangeAction}
           onAddIngredient={handleAddIngredient}
@@ -99,3 +85,7 @@ export const CreateCocktail = () => {
     </Container>
   );
 };
+
+export const CreateCocktail = withAuthenticationRequired(memo(CreateCocktailInner), {
+  onRedirecting: Standby,
+});
