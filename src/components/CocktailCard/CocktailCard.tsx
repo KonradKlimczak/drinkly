@@ -13,6 +13,7 @@ import { Box, CardActions, IconButton } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import React, { useState } from 'react';
+import { Ingredient } from 'components/Ingredient';
 
 type Cocktail = Unpacked<GetCocktailsQuery['cocktails']>;
 
@@ -60,14 +61,7 @@ export const CocktailCard = (props: CocktailCardProps) => {
                 {step.ingredients && (
                   <div style={{ display: 'flex' }}>
                     {step.ingredients.map((ingredient) => (
-                      <div key={ingredient.id} style={{ padding: 8, display: 'flex', flexDirection: 'column-reverse' }}>
-                        <Typography variant="body2" component="div" display="flex" sx={{ fontSize: '1.25rem' }}>
-                          {ingredient.amount} {ingredient.unit}
-                        </Typography>
-                        <Typography variant="subtitle2" component="div">
-                          {ingredient.name}
-                        </Typography>
-                      </div>
+                      <Ingredient key={ingredient.id} ingredient={ingredient} />
                     ))}
                   </div>
                 )}

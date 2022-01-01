@@ -31,8 +31,10 @@ export const ActionButton = (props: ActionButtonProps) => {
 
   return (
     <>
-      <IconButton onClick={handleOpen} size="large">
-        <CocktailStepIcon icon={action} />
+      <IconButton onClick={handleOpen}>
+        <div style={{ width: 50, height: 50, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <CocktailStepIcon icon={action} />
+        </div>
       </IconButton>
       <Modal
         open={open}

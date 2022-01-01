@@ -2,6 +2,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { FormControl, IconButton, InputLabel, MenuItem, Paper, Select } from '@mui/material';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import { Ingredient } from 'components/Ingredient';
 import { useCallback } from 'react';
 import { RecipeStep } from 'types';
 import { ActionButton } from './ActionButton';
@@ -21,7 +22,12 @@ export const RecipeStepInputs = (props: RecipeStepInputsProps) => {
   }, [onAddIngredient]);
 
   return (
-    <>
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+      }}
+    >
       <ActionButton stepIndex={stepIndex} action={step.action} onChange={onChangeAction} />
       <Box
         sx={{
@@ -30,36 +36,13 @@ export const RecipeStepInputs = (props: RecipeStepInputsProps) => {
           alignItems: 'center',
         }}
       >
-        {step.ingredients.map((ingredient, ingredientIndex) => (
-          <Paper
-            key={ingredient.name}
-            elevation={3}
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              p: 1,
-            }}
-          >
-            <div>
-              <TextField size="small" sx={{ width: 100, marginBottom: 1 }} label="Amout" />
-
-              <FormControl size="small" fullWidth>
-                <InputLabel id={`unit-label-${stepIndex}-${ingredientIndex}`}>Unit</InputLabel>
-
-                <Select size="small" labelId={`unit-label-${stepIndex}-${ingredientIndex}`} label="Unit">
-                  <MenuItem value="MOST_POPULAR">ml</MenuItem>
-                  <MenuItem value="HIGHEST_RATING">drops</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-            <TextField size="small" sx={{ width: 150 }} label="Ingredient" />
-          </Paper>
+        {step.ingredients.map((ingredient, index) => (
+          <Ingredient key={index} ingredient={ingredient} />
         ))}
         <IconButton color="primary" sx={{ marginLeft: 1 }} onClick={handleAddIngredient}>
           <AddIcon />
         </IconButton>
       </Box>
-    </>
+    </Box>
   );
 };

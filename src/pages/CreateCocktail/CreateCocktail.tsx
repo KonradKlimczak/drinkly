@@ -75,7 +75,6 @@ const CreateCocktailInner = () => {
         </Typography>
         <CocktailForm
           cocktail={cocktail}
-          user={user!}
           onChangeName={handleChangeName}
           onChangeAction={handleChangeAction}
           onAddIngredient={handleAddIngredient}
