@@ -9,6 +9,10 @@ import Rating from '@mui/material/Rating';
 import { CocktailStepIcon } from 'components/Icon';
 import { Unpacked } from 'generated/types';
 import { GetCocktailsQuery } from 'generated/graphql';
+import { Box, CardActions, IconButton } from '@mui/material';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import React, { useState } from 'react';
 
 type Cocktail = Unpacked<GetCocktailsQuery['cocktails']>;
 
@@ -18,11 +22,17 @@ type CocktailCardProps = {
 
 export const CocktailCard = (props: CocktailCardProps) => {
   const { cocktail } = props;
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const handleClickFavorite = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsFavorite((prev) => !prev);
+  };
 
   return (
     <Grid item flex={1}>
-      <CardActionArea component={RouterLink} to={`/cocktail/${cocktail.id}`}>
-        <Card sx={{ display: 'flex' }}>
+      <Card sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <CardActionArea component={RouterLink} to={`/cocktail/${cocktail.id}`} sx={{ display: 'flex' }}>
           <CardMedia
             component="img"
             sx={{ width: 320, display: { xs: 'none', sm: 'block' } }}
@@ -51,12 +61,7 @@ export const CocktailCard = (props: CocktailCardProps) => {
                   <div style={{ display: 'flex' }}>
                     {step.ingredients.map((ingredient) => (
                       <div key={ingredient.id} style={{ padding: 8, display: 'flex', flexDirection: 'column-reverse' }}>
-                        <Typography
-                          variant="body2"
-                          component="div"
-                          display="flex"
-                          sx={{ fontSize: '1.25rem' }}
-                        >
+                        <Typography variant="body2" component="div" display="flex" sx={{ fontSize: '1.25rem' }}>
                           {ingredient.amount} {ingredient.unit}
                         </Typography>
                         <Typography variant="subtitle2" component="div">
@@ -76,8 +81,13 @@ export const CocktailCard = (props: CocktailCardProps) => {
               </div>
             ))}
           </CardContent>
-        </Card>
-      </CardActionArea>
+        </CardActionArea>
+        <CardActions>
+          <IconButton aria-label="favorite" color="primary" onClick={handleClickFavorite}>
+            {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+          </IconButton>
+        </CardActions>
+      </Card>
     </Grid>
   );
 };

@@ -12,6 +12,10 @@ export const ApplicationBar = () => {
     loginWithRedirect({});
   }, []);
 
+  const handleCreateAccount = useCallback(() => {
+    loginWithRedirect({ screen_hint: 'signup' });
+  }, []);
+
   return (
     <AppBar
       position="static"
@@ -25,9 +29,14 @@ export const ApplicationBar = () => {
           Drinkly
         </Typography>
         {!isAuthenticated && (
-          <Button id="qsLoginBtn" color="primary" onClick={handleLogin}>
-            Log in
-          </Button>
+          <>
+            <Button color="primary" onClick={handleCreateAccount} sx={{ marginRight: 1 }}>
+              Create Account
+            </Button>
+            <Button variant="contained" color="primary" onClick={handleLogin}>
+              Log in
+            </Button>
+          </>
         )}
         {isAuthenticated && (
           <>
