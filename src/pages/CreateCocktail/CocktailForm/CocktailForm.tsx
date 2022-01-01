@@ -9,6 +9,7 @@ import { ChangeEvent } from 'react';
 import { CocktailInput } from 'types';
 import { User } from '@auth0/auth0-spa-js';
 import { RecipeStepInputs } from './RecipeStepInputs';
+import { PictureInput } from 'components/PictureInput';
 
 const Input = styled('input')({
   display: 'none',
@@ -47,23 +48,7 @@ export const CocktailForm = (props: CocktailFormProps) => {
           <TextField fullWidth disabled value={user.nickname} data-testid="author-input" label="Author" />
         </Grid>
         <Grid item xs={12} md={4} display="flex">
-          <Box
-            component="label"
-            htmlFor="upload-cocktail-picture"
-            sx={{
-              p: 2,
-              border: '1px dashed grey',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexGrow: 1,
-            }}
-          >
-            <Input accept="image/*" id="upload-cocktail-picture" type="file" />
-            <InsertPhotoIcon />
-            <Button component="span">Upload picture</Button>
-          </Box>
+          <PictureInput />
         </Grid>
       </Grid>
       <Typography component="h2" variant="subtitle1" sx={{ marginTop: 1 }}>
