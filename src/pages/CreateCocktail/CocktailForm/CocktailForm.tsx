@@ -14,10 +14,11 @@ type CocktailFormProps = {
   onChangeAction: (stepIndex: number, action: string) => void;
   onAddIngredient: (stepIndex: number) => void;
   onAddStep: () => void;
+  onChangeImage: (image?: string) => void;
 };
 
 export const CocktailForm = (props: CocktailFormProps) => {
-  const { cocktail, onChangeName, onChangeAction, onAddIngredient, onAddStep } = props;
+  const { cocktail, onChangeName, onChangeAction, onAddIngredient, onAddStep, onChangeImage } = props;
 
   const handleChangeName = (event: ChangeEvent<HTMLInputElement>) => {
     onChangeName(event.target.value);
@@ -27,7 +28,7 @@ export const CocktailForm = (props: CocktailFormProps) => {
     <Box component="form" noValidate onSubmit={console.log} sx={{ mt: 3 }}>
       <Grid container spacing={2}>
         <Grid item xs={12} md={4} display="flex">
-          <PictureInput />
+          <PictureInput image={cocktail.image} onChange={onChangeImage} />
         </Grid>
         <Grid item xs={12} md={8}>
           <TextField

@@ -63,6 +63,10 @@ const CreateCocktailInner = () => {
     }));
   }, []);
 
+  const handleChangeImage = useCallback((image?: string) => {
+    setCocktail((prev) => ({ ...prev, image }));
+  }, []);
+
   return (
     <Container component="main" maxWidth="lg">
       <Box
@@ -79,6 +83,7 @@ const CreateCocktailInner = () => {
           onChangeAction={handleChangeAction}
           onAddIngredient={handleAddIngredient}
           onAddStep={handleAddStep}
+          onChangeImage={handleChangeImage}
         />
       </Box>
     </Container>
