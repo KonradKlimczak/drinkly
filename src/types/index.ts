@@ -19,7 +19,8 @@ export type Comment = {
 export type Ingredient = {
   name: string;
   amount: number | string;
-  unit?: 'ml' | 'drops';
+  optiona?: boolean;
+  unit?: string;
 };
 
 export type RecipeStep = {

@@ -1,37 +1,51 @@
-import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react';
+import { withAuthenticationRequired } from '@auth0/auth0-react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { Standby } from 'components/Standby/Standby';
 import { memo, useCallback, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
-import { CocktailInput } from 'types';
+import { CocktailInput, Ingredient } from 'types';
 import { CocktailForm } from './CocktailForm';
 import { INITIAL_COCKTAIL } from './constants';
+import { IngredientModal } from './IngredientModal';
+import { addIngredient } from './utils';
+
+type IngredientModal =
+  | {
+      kind: 'Closed';
+    }
+  | {
+      kind: 'Add';
+      stepIndex: number;
+    }
+  | {
+      kind: 'Edit';
+      stepIndex: number;
+      ingredient: Ingredient;
+    };
 
 const CreateCocktailInner = () => {
   const [cocktail, setCocktail] = useState<CocktailInput>(INITIAL_COCKTAIL);
-  const { user } = useAuth0();
+  const [editIngredient, setEditIngredient] = useState<IngredientModal>({ kind: 'Closed' });
 
   const handleChangeName = useCallback((name: string) => {
-    setCocktail((prev) => ({
-      ...prev,
-      name,
-    }));
+    setCocktail((prev) => ({ ...prev, name }));
   }, []);
 
   const handleAddIngredient = useCallback((stepIndex: number) => {
-    setCocktail((prev) => ({
-      ...prev,
-      recipe: prev.recipe.map((step, index) => {
-        if (index === stepIndex) {
-          return { ...step, ingredients: [...step.ingredients, { name: '', amount: '' }] };
-        }
-        return step;
-      }),
-    }));
+    setEditIngredient({ kind: 'Add', stepIndex });
   }, []);
+
+  const handleSaveIngredient = useCallback(
+    (ingredient: Ingredient) => {
+      if (editIngredient.kind !== 'Closed') {
+        const { stepIndex } = editIngredient;
+        setCocktail((prev) => addIngredient(prev, ingredient, stepIndex));
+        setEditIngredient({ kind: 'Closed' });
+      }
+    },
+    [editIngredient]
+  );
 
   const handleChangeAction = useCallback((stepIndex: number, action: string) => {
     setCocktail((prev) => ({
@@ -48,18 +62,7 @@ const CreateCocktailInner = () => {
   const handleAddStep = useCallback(() => {
     setCocktail((prev) => ({
       ...prev,
-      recipe: [
-        ...prev.recipe,
-        {
-          action: 'pour',
-          ingredients: [
-            {
-              amount: '',
-              name: '',
-            },
-          ],
-        },
-      ],
+      recipe: [...prev.recipe, { action: 'pour', ingredients: [{ amount: '', name: '' }] }],
     }));
   }, []);
 
@@ -85,6 +88,13 @@ const CreateCocktailInner = () => {
           onAddStep={handleAddStep}
           onChangeImage={handleChangeImage}
         />
+        {editIngredient.kind !== 'Closed' && (
+          <IngredientModal
+            initialIngredient={editIngredient.kind === 'Edit' ? editIngredient.ingredient : undefined}
+            onClose={() => setEditIngredient({ kind: 'Closed' })}
+            onSave={handleSaveIngredient}
+          />
+        )}
       </Box>
     </Container>
   );
