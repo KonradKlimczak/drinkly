@@ -1,5 +1,4 @@
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import { Link as RouterLink } from 'react-router-dom';
@@ -9,11 +8,11 @@ import Rating from '@mui/material/Rating';
 import { CocktailStepIcon } from 'components/Icon';
 import { Unpacked } from 'generated/types';
 import { GetCocktailsQuery } from 'generated/graphql';
-import { Box, CardActions, IconButton } from '@mui/material';
+import { CardActions, IconButton } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import React, { useState } from 'react';
-import { Ingredient } from 'components/Ingredient';
+import { IngredientBox } from 'components/Ingredient';
 
 type Cocktail = Unpacked<GetCocktailsQuery['cocktails']>;
 
@@ -31,57 +30,53 @@ export const CocktailCard = (props: CocktailCardProps) => {
   };
 
   return (
-    <Grid item flex={1}>
-      <Card sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-        <CardActionArea component={RouterLink} to={`/cocktail/${cocktail.id}`} sx={{ display: 'flex' }}>
-          <CardMedia
-            component="img"
-            sx={{ width: 320, display: { xs: 'none', sm: 'block' } }}
-            image={cocktail.image}
-            alt={cocktail.name}
-          />
-          <CardContent sx={{ flex: 1 }}>
-            <Typography component="h2" variant="h5" sx={{ fontSize: '1.75rem', fontWeight: 500 }}>
-              {cocktail.name}
-            </Typography>
-            <Typography variant="subtitle1" color="text.secondary">
-              <Rating
-                data-testid="cocktail-rating"
-                precision={0.1}
-                name={`${cocktail.id}-rating`}
-                value={cocktail.score}
-                readOnly
-              />
-            </Typography>
-            {cocktail.recipe.map((step, index) => (
-              <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
-                <div style={{ width: 50, height: 50, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <CocktailStepIcon icon={step.action} />
-                </div>
-                {step.ingredients && (
-                  <div style={{ display: 'flex' }}>
-                    {step.ingredients.map((ingredient) => (
-                      <Ingredient key={ingredient.id} ingredient={ingredient} />
-                    ))}
-                  </div>
-                )}
-                {step.endAction && (
-                  <div
-                    style={{ width: 50, height: 50, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                  >
-                    <CocktailStepIcon icon={step.endAction} />
-                  </div>
-                )}
+    <Card sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+      <CardActionArea component={RouterLink} to={`/cocktail/${cocktail.id}`} sx={{ display: 'flex' }}>
+        <CardMedia
+          component="img"
+          sx={{ width: 320, display: { xs: 'none', sm: 'block' } }}
+          image={cocktail.image}
+          alt={cocktail.name}
+        />
+        <CardContent sx={{ flex: 1 }}>
+          <Typography component="h2" variant="h5" sx={{ fontSize: '1.75rem', fontWeight: 500 }}>
+            {cocktail.name}
+          </Typography>
+          <Typography variant="subtitle1" color="text.secondary">
+            <Rating
+              data-testid="cocktail-rating"
+              precision={0.1}
+              name={`${cocktail.id}-rating`}
+              value={cocktail.score}
+              readOnly
+            />
+          </Typography>
+          {cocktail.recipe.map((step, index) => (
+            <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{ width: 50, height: 50, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <CocktailStepIcon icon={step.action} />
               </div>
-            ))}
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-          <IconButton aria-label="favorite" color="primary" onClick={handleClickFavorite}>
-            {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-          </IconButton>
-        </CardActions>
-      </Card>
-    </Grid>
+              {step.ingredients && (
+                <div style={{ display: 'flex' }}>
+                  {step.ingredients.map((ingredient) => (
+                    <IngredientBox key={ingredient.id} ingredient={ingredient} />
+                  ))}
+                </div>
+              )}
+              {step.endAction && (
+                <div style={{ width: 50, height: 50, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <CocktailStepIcon icon={step.endAction} />
+                </div>
+              )}
+            </div>
+          ))}
+        </CardContent>
+      </CardActionArea>
+      <CardActions>
+        <IconButton aria-label="favorite" color="primary" onClick={handleClickFavorite}>
+          {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+        </IconButton>
+      </CardActions>
+    </Card>
   );
 };

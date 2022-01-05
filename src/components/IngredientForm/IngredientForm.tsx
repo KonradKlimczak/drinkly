@@ -62,8 +62,8 @@ export const IngredientForm = (props: IngredientFormProps) => {
         value={!ingredient.optional}
         onChange={handleChangeOptional}
       />
-      <TextField label="Amount" size="small" value={ingredient.amount} onChange={handleChangeAmount} />
-      <TextField label="Unit" size="small" value={ingredient.unit} onChange={handleChangeUnit} />
+      <TextField label="Amount" size="small" value={ingredient.amount ?? ''} onChange={handleChangeAmount} />
+      <TextField label="Unit" size="small" value={ingredient.unit ?? ''} onChange={handleChangeUnit} />
     </Box>
   );
 };

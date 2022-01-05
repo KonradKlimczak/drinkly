@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 
 import { CocktailCard } from 'components/CocktailCard';
@@ -12,6 +11,7 @@ import { RootState } from 'redux/store';
 import { CocktailQuery } from 'types';
 import { CocktailSearch } from './CocktailSearch';
 import { Direction, SortField, useGetCocktailsQuery, useGetIngredientsQuery } from 'generated/graphql';
+import { Box } from '@mui/material';
 
 export const Home = () => {
   const dispatch = useDispatch();
@@ -45,11 +45,11 @@ export const Home = () => {
           <CircularProgress color="inherit" />
         </Stack>
       )}
-      <Grid container spacing={4} sx={{ marginTop: 0 }} flexDirection="column">
+      <Box flexDirection="column" sx={{ '& .MuiCard-root': { mt: 2 } }}>
         {cocktails?.map((cocktail) => (
           <CocktailCard key={cocktail.id} cocktail={cocktail} />
         ))}
-      </Grid>
+      </Box>
     </Container>
   );
 };

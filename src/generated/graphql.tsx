@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -148,9 +149,9 @@ export type GetCocktailsQuery = {
             __typename?: 'RecipeIngredient';
             id: string;
             name: string;
-            amount?: any | null | undefined;
-            unit?: string | null | undefined;
-            optional?: boolean | null | undefined;
+            amount?: any | undefined;
+            unit?: string | undefined;
+            optional?: boolean | undefined;
           }>
         | null
         | undefined;

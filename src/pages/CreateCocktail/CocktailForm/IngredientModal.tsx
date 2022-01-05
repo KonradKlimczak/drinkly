@@ -1,12 +1,12 @@
-import { memo, useCallback, useState } from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
-import { IngredientForm } from 'components/IngredientForm';
-import { RecipeIngredient } from 'generated/graphql';
-import { SxProps } from '@mui/system';
 import { Button, Theme } from '@mui/material';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import Typography from '@mui/material/Typography';
+import { SxProps } from '@mui/system';
+import { IngredientForm } from 'components/IngredientForm';
+import { memo, useCallback, useState } from 'react';
 import { Ingredient } from 'types';
+import { v4 as uuidv4 } from 'uuid';
 
 const style: SxProps<Theme> = {
   position: 'absolute',
@@ -34,6 +34,7 @@ const IngredientModalInner = (props: IngredientModalInnerProps) => {
       return initialIngredient;
     }
     return {
+      id: uuidv4(),
       name: '',
       amount: '',
     };

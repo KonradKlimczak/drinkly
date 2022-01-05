@@ -8,13 +8,12 @@ import { useCallback, useState } from 'react';
 import Button from '@mui/material/Button';
 
 type ActionButtonProps = {
-  stepIndex: number;
   action: string;
-  onChange: (stepIndex: number, action: string) => void;
+  onChange: (action: string) => void;
 };
 
 export const ActionButton = (props: ActionButtonProps) => {
-  const { stepIndex, action, onChange } = props;
+  const { action, onChange } = props;
 
   const [open, setOpen] = useState(false);
 
@@ -23,10 +22,10 @@ export const ActionButton = (props: ActionButtonProps) => {
 
   const handleChange = useCallback(
     (newAction: string) => {
-      onChange(stepIndex, newAction);
+      onChange(newAction);
       handleClose();
     },
-    [stepIndex, onChange]
+    [handleClose, onChange]
   );
 
   return (

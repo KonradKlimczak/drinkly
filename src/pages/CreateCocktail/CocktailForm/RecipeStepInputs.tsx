@@ -1,25 +1,71 @@
+import { useCallback, useState } from 'react';
+
 import AddIcon from '@mui/icons-material/Add';
-import { FormControl, IconButton, InputLabel, MenuItem, Paper, Select } from '@mui/material';
+import { IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import { Ingredient } from 'components/Ingredient';
-import { useCallback } from 'react';
-import { RecipeStep } from 'types';
+import { IngredientBox } from 'components/Ingredient';
+
+import { Ingredient, RecipeStep } from 'types';
+
+import { IngredientModal } from './IngredientModal';
 import { ActionButton } from './ActionButton';
 
+type IngredientModal =
+  | {
+      kind: 'Closed';
+    }
+  | {
+      kind: 'Add';
+    }
+  | {
+      kind: 'Edit';
+      ingredient: Ingredient;
+    };
+
 type RecipeStepInputsProps = {
-  stepIndex: number;
   step: RecipeStep;
-  onChangeAction: (stepIndex: number, action: string) => void;
-  onAddIngredient: (stepIndex: number) => void;
+  onChange: (step: RecipeStep) => void;
 };
 
 export const RecipeStepInputs = (props: RecipeStepInputsProps) => {
-  const { stepIndex, step, onChangeAction, onAddIngredient } = props;
+  const { step, onChange } = props;
+
+  const [editIngredient, setEditIngredient] = useState<IngredientModal>({ kind: 'Closed' });
 
   const handleAddIngredient = useCallback(() => {
-    onAddIngredient(stepIndex);
-  }, [onAddIngredient]);
+    setEditIngredient({ kind: 'Add' });
+  }, []);
+
+  const handleEditIngredient = useCallback((ingredient: Ingredient) => {
+    setEditIngredient({ kind: 'Edit', ingredient });
+  }, []);
+
+  const onRemoveIngredient = useCallback((ingredient: Ingredient) => {
+    onChange({ ...step, ingredients: step.ingredients.filter((i) => i.id !== ingredient.id) });
+  }, [onChange, step]);
+
+  const handleSaveIngredient = useCallback(
+    (ingredient: Ingredient) => {
+      if (editIngredient.kind === 'Add') {
+        onChange({ ...step, ingredients: [...step.ingredients, ingredient] });
+      }
+      if (editIngredient.kind === 'Edit') {
+        onChange({ ...step, ingredients: step.ingredients.map((i) => (i.id === ingredient.id ? ingredient : i)) });
+      }
+      setEditIngredient({ kind: 'Closed' });
+    },
+    [step, editIngredient, onChange]
+  );
+
+  const handleChangeAction = useCallback(
+    (action: string) => {
+      onChange({
+        ...step,
+        action,
+      });
+    },
+    [onChange, step]
+  );
 
   return (
     <Box
@@ -28,7 +74,7 @@ export const RecipeStepInputs = (props: RecipeStepInputsProps) => {
         alignItems: 'center',
       }}
     >
-      <ActionButton stepIndex={stepIndex} action={step.action} onChange={onChangeAction} />
+      <ActionButton action={step.action} onChange={handleChangeAction} />
       <Box
         sx={{
           justifySelf: 'start',
@@ -37,11 +83,23 @@ export const RecipeStepInputs = (props: RecipeStepInputsProps) => {
         }}
       >
         {step.ingredients.map((ingredient, index) => (
-          <Ingredient key={index} ingredient={ingredient} />
+          <IngredientBox
+            key={index}
+            ingredient={ingredient}
+            onEdit={handleEditIngredient}
+            onRemove={onRemoveIngredient}
+          />
         ))}
         <IconButton color="primary" sx={{ marginLeft: 1 }} onClick={handleAddIngredient}>
           <AddIcon />
         </IconButton>
+        {editIngredient.kind !== 'Closed' && (
+          <IngredientModal
+            initialIngredient={editIngredient.kind === 'Edit' ? editIngredient.ingredient : undefined}
+            onClose={() => setEditIngredient({ kind: 'Closed' })}
+            onSave={handleSaveIngredient}
+          />
+        )}
       </Box>
     </Box>
   );

@@ -17,13 +17,15 @@ export type Comment = {
 };
 
 export type Ingredient = {
+  id: string;
   name: string;
-  amount: number | string;
-  optiona?: boolean;
+  amount?: number | string;
+  optional?: boolean;
   unit?: string;
 };
 
 export type RecipeStep = {
+  id: string;
   action: string;
   ingredients: Ingredient[];
 };
@@ -42,6 +44,7 @@ export type Cocktail = {
 };
 
 export type CocktailInput = {
+  id: string;
   name: string;
   image?: string;
   recipe: RecipeStep[];

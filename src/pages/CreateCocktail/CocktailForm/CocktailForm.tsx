@@ -2,23 +2,21 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 import { PictureInput } from 'components/PictureInput';
 import { ChangeEvent } from 'react';
-import { CocktailInput } from 'types';
+import { CocktailInput, RecipeStep } from 'types';
 import { RecipeStepInputs } from './RecipeStepInputs';
 
 type CocktailFormProps = {
   cocktail: CocktailInput;
   onChangeName: (name: string) => void;
-  onChangeAction: (stepIndex: number, action: string) => void;
-  onAddIngredient: (stepIndex: number) => void;
+  onChangeStep: (step: RecipeStep) => void;
   onAddStep: () => void;
   onChangeImage: (image?: string) => void;
 };
 
 export const CocktailForm = (props: CocktailFormProps) => {
-  const { cocktail, onChangeName, onChangeAction, onAddIngredient, onAddStep, onChangeImage } = props;
+  const { cocktail, onChangeName, onChangeStep, onAddStep, onChangeImage } = props;
 
   const handleChangeName = (event: ChangeEvent<HTMLInputElement>) => {
     onChangeName(event.target.value);
@@ -41,14 +39,8 @@ export const CocktailForm = (props: CocktailFormProps) => {
             name="name"
             sx={{ marginBottom: 2 }}
           />
-          {cocktail.recipe.map((step, stepIndex) => (
-            <RecipeStepInputs
-              key={stepIndex}
-              stepIndex={stepIndex}
-              step={step}
-              onChangeAction={onChangeAction}
-              onAddIngredient={onAddIngredient}
-            />
+          {cocktail.recipe.map((step) => (
+            <RecipeStepInputs key={step.id} step={step} onChange={onChangeStep} />
           ))}
           <Grid item>
             <Button onClick={onAddStep}>Add step</Button>
