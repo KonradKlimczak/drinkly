@@ -8,15 +8,13 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { Link as RouterLink, useHistory } from 'react-router-dom';
-import { setUser } from 'redux/slices/userSlice';
 import { useDispatch } from 'react-redux';
-import { useLoginMutation } from 'generated/graphql';
 
 export const Login = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const [login] = useLoginMutation();
+  const [login] = console.log as any;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

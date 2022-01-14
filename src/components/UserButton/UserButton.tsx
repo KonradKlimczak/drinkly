@@ -2,9 +2,9 @@ import { memo, MouseEvent } from 'react';
 
 import Avatar from '@mui/material/Avatar';
 import { Box } from '@mui/system';
-import { User } from '@auth0/auth0-spa-js';
 
 import { getInitials, getStringToColor } from 'utils/avatar';
+import { User } from 'types';
 
 type UserButtonProps = {
   user?: User;

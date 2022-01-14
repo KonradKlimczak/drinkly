@@ -1,4 +1,3 @@
-import { useAuth0 } from '@auth0/auth0-react';
 import LocalBarIcon from '@mui/icons-material/LocalBar';
 import { AppBar, Button, Toolbar, Typography } from '@mui/material';
 import { useCallback } from 'react';
@@ -6,14 +5,14 @@ import { Link as RouterLink } from 'react-router-dom';
 import { UserMenu } from './UserMenu';
 
 export const ApplicationBar = () => {
-  const { isAuthenticated, loginWithRedirect } = useAuth0();
+  const isAuthenticated = false;
 
   const handleLogin = useCallback(() => {
-    loginWithRedirect({});
+    console.log('handleLogin');
   }, []);
 
   const handleCreateAccount = useCallback(() => {
-    loginWithRedirect({ screen_hint: 'signup' });
+    console.log('handleCreateAccount');
   }, []);
 
   return (

@@ -1,7 +1,6 @@
 import { Garnish } from './Garnish';
 import { LongGarnish } from './LongGarnish';
 import { OldFashionedGarnish } from './OldFashionedGarnish';
-import { Pour } from './Pour';
 import { Shake } from './Shake';
 import { ShakerPlus } from './ShakerPlus';
 import { ShakerPour } from './ShakerPour';
@@ -16,8 +15,6 @@ export const CocktailStepIcon = (props: CocktailStepIconProps) => {
   switch (icon) {
     case 'garnish':
       return <Garnish />;
-    case 'pour':
-      return <Pour />;
     case 'shake':
       return <Shake />;
     case 'shaker-add':

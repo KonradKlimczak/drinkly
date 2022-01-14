@@ -10,7 +10,6 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { Link as RouterLink, useHistory } from 'react-router-dom';
-import { useCreateAccountMutation } from 'generated/graphql';
 import { useState } from 'react';
 import { getEmailError, getUsernameError } from './utils';
 
@@ -23,7 +22,7 @@ type FormErrors = {
 export const CreateAccount = () => {
   const history = useHistory();
 
-  const [createAccount] = useCreateAccountMutation();
+  const createAccount = console.log as any;
 
   const [errors, setErrors] = useState<FormErrors>({});
 
@@ -44,7 +43,7 @@ export const CreateAccount = () => {
       .then(() => {
         history.push('/');
       })
-      .catch((error) => {
+      .catch((error: any) => {
         setErrors({
           username: getUsernameError(error, username),
           email: getEmailError(error, email),

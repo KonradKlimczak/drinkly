@@ -1,5 +1,8 @@
 export type User = {
   id: string;
+  picture?: string;
+  given_name?: string;
+  family_name?: string;
   username: string;
   lastName: string;
   email: string;
@@ -28,6 +31,7 @@ export type RecipeStep = {
   id: string;
   action: string;
   ingredients: Ingredient[];
+  endAction?: string;
 };
 
 export type Cocktail = {

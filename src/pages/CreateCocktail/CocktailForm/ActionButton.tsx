@@ -4,7 +4,7 @@ import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import { CocktailStepIcon } from 'components/Icon';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import { useCallback, useState } from 'react';
+import { MouseEvent, useCallback, useState } from 'react';
 import Button from '@mui/material/Button';
 
 type ActionButtonProps = {
@@ -21,16 +21,18 @@ export const ActionButton = (props: ActionButtonProps) => {
   const handleClose = useCallback(() => setOpen(false), []);
 
   const handleChange = useCallback(
-    (newAction: string) => {
-      onChange(newAction);
-      handleClose();
+    (event: MouseEvent<HTMLButtonElement>) => {
+      if (event.currentTarget.dataset.value) {
+        onChange(event.currentTarget.dataset.value);
+        handleClose();
+      }
     },
     [handleClose, onChange]
   );
 
   return (
     <>
-      <IconButton onClick={handleOpen}>
+      <IconButton onClick={handleOpen} color="primary">
         <div style={{ width: 50, height: 50, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <CocktailStepIcon icon={action} />
         </div>
@@ -57,14 +59,23 @@ export const ActionButton = (props: ActionButtonProps) => {
             Selet action
           </Typography>
           <ButtonGroup variant="outlined">
-            <Button onClick={() => handleChange('garnish')}>
+            <Button data-value="garnish" onClick={handleChange}>
               <CocktailStepIcon icon="garnish" />
             </Button>
-            <Button onClick={() => handleChange('pour')}>
-              <CocktailStepIcon icon="pour" />
-            </Button>
-            <Button onClick={() => handleChange('shake')}>
+            <Button data-value="shake" onClick={handleChange}>
               <CocktailStepIcon icon="shake" />
+            </Button>
+            <Button data-value="shaker-add" onClick={handleChange}>
+              <CocktailStepIcon icon="shaker-add" />
+            </Button>
+            <Button data-value="old-fashioned-garnish" onClick={handleChange}>
+              <CocktailStepIcon icon="old-fashioned-garnish" />
+            </Button>
+            <Button data-value="long-garnish" onClick={handleChange}>
+              <CocktailStepIcon icon="long-garnish" />
+            </Button>
+            <Button data-value="shaker-pour" onClick={handleChange}>
+              <CocktailStepIcon icon="shaker-pour" />
             </Button>
           </ButtonGroup>
         </Box>

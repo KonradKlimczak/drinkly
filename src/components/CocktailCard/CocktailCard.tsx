@@ -6,15 +6,12 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Rating from '@mui/material/Rating';
 import { CocktailStepIcon } from 'components/Icon';
-import { Unpacked } from 'generated/types';
-import { GetCocktailsQuery } from 'generated/graphql';
 import { CardActions, IconButton } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import React, { useState } from 'react';
 import { IngredientBox } from 'components/Ingredient';
-
-type Cocktail = Unpacked<GetCocktailsQuery['cocktails']>;
+import { Cocktail } from 'types';
 
 type CocktailCardProps = {
   cocktail: Cocktail;
@@ -47,7 +44,7 @@ export const CocktailCard = (props: CocktailCardProps) => {
               data-testid="cocktail-rating"
               precision={0.1}
               name={`${cocktail.id}-rating`}
-              value={cocktail.score}
+              value={cocktail.rating}
               readOnly
             />
           </Typography>

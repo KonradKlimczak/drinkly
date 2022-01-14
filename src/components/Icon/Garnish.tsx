@@ -1,6 +1,6 @@
 export const Garnish = () => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 190 242">
+    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 190 242">
       <g id="Group_2" data-name="Group 2" transform="translate(-354 -257)">
         <g
           id="Ellipse_5"

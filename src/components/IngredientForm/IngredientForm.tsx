@@ -1,12 +1,12 @@
+import { ChangeEvent, SyntheticEvent, useCallback } from 'react';
 import { Box, FormControlLabel } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Switch from '@mui/material/Switch';
 
-import { RecipeIngredient } from 'generated/graphql';
-import { ChangeEvent, SyntheticEvent, useCallback } from 'react';
+import { Ingredient } from 'types';
 
 type IngredientFormProps = {
-  ingredient: Pick<RecipeIngredient, 'name' | 'optional' | 'amount' | 'unit'>;
+  ingredient: Pick<Ingredient, 'name' | 'optional' | 'amount' | 'unit'>;
   onChangeName: (value: string) => void;
   onChangeOptional: (value: boolean) => void;
   onChangeAmount: (value: string | number) => void;
@@ -49,7 +49,7 @@ export const IngredientForm = (props: IngredientFormProps) => {
       component="form"
       sx={{
         display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
+        gridTemplateColumns: '2fr 1fr',
         gap: 1,
       }}
       noValidate

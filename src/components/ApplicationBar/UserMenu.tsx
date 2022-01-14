@@ -1,13 +1,15 @@
-import { useAuth0 } from '@auth0/auth0-react';
+import { MouseEvent, useState } from 'react';
+import { useQuery } from 'react-query';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import Divider from '@mui/material/Divider';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+
+import { getUser } from 'api/user';
 import { UserButton } from 'components/UserButton';
-import { MouseEvent, useState } from 'react';
 
 export const UserMenu = () => {
-  const { user, logout } = useAuth0();
+  const { data: user } = useQuery('user', getUser);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -19,14 +21,15 @@ export const UserMenu = () => {
     setAnchorEl(null);
   };
 
-  const handleLogout = () =>
-    logout({
-      returnTo: window.location.origin,
-    });
+  const handleLogout = () => console.log;
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <>
-      <UserButton user={user} onClick={handleClick} />
+      <UserButton user={user.data} onClick={handleClick} />
       <ArrowDropDownIcon fontSize="small" />
       <Menu id="user-menu" anchorEl={anchorEl} open={open} onClose={handleClose}>
         <MenuItem onClick={handleClose}>Your profile</MenuItem>

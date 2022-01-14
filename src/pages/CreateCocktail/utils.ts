@@ -1,4 +1,6 @@
-import { CocktailInput, Ingredient } from 'types';
+import { v4 as uuidv4 } from 'uuid';
+
+import { CocktailInput, Ingredient, RecipeStep } from 'types';
 
 export const addIngredient = (cocktail: CocktailInput, ingredient: Ingredient, stepIndex: number): CocktailInput => {
   return {
@@ -14,3 +16,5 @@ export const addIngredient = (cocktail: CocktailInput, ingredient: Ingredient, s
     }),
   };
 };
+
+export const getRecipeStep = (): RecipeStep => ({ id: uuidv4(), action: 'pour', ingredients: [] });

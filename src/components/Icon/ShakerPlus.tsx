@@ -1,6 +1,6 @@
 export const ShakerPlus = () => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="26.093" height="47.303" viewBox="0 0 26.093 47.303">
+    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 26.093 47.303">
       <g id="Shaker_Plus" data-name="Shaker Plus" transform="translate(-104.907 -21.348)">
         <g id="Shaker" transform="translate(-145.119 -159.774)">
           <path

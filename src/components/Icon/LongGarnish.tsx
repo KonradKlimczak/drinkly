@@ -1,6 +1,6 @@
 export const LongGarnish = () => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24.593" height="45.451" viewBox="0 0 24.593 45.451">
+    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24.593 45.451">
       <g id="Long_Garnish" data-name="Long Garnish" transform="translate(-559.547 -61.96)">
         <path
           id="Path_58"

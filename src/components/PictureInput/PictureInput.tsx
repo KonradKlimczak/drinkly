@@ -37,7 +37,7 @@ export const PictureInput = (props: PictureInputProps) => {
 
   const handleClear = useCallback(() => {
     onChange(undefined);
-  }, []);
+  }, [onChange]);
 
   if (image) {
     return (

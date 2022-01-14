@@ -10,22 +10,22 @@ import { setQuery } from 'redux/slices/cocktailSlice';
 import { RootState } from 'redux/store';
 import { CocktailQuery } from 'types';
 import { CocktailSearch } from './CocktailSearch';
-import { Direction, SortField, useGetCocktailsQuery, useGetIngredientsQuery } from 'generated/graphql';
 import { Box } from '@mui/material';
+import { useQuery } from 'react-query';
+import { getCocktails } from 'api/cocktail';
+import { getIngredients } from 'api/ingredient';
 
 export const Home = () => {
   const dispatch = useDispatch();
 
   const query = useSelector((state: RootState) => state.cocktail.query);
 
-  const { data: cocktailsQuery } = useGetCocktailsQuery({
-    variables: { ...query, skip: 0, take: 10, sortBy: { field: SortField.Name, direction: Direction.Asc } },
-  });
+  const { data: cocktailsQuery } = useQuery('cocktails', getCocktails);
 
-  const { data: ingredientsQuery } = useGetIngredientsQuery({});
+  const { data: ingredientsQuery } = useQuery('ingredients', getIngredients);
 
-  const cocktails = useMemo(() => cocktailsQuery?.cocktails, [cocktailsQuery?.cocktails]);
-  const ingredients = useMemo(() => ingredientsQuery?.ingredients, [ingredientsQuery?.ingredients]);
+  const cocktails = useMemo(() => cocktailsQuery?.data, [cocktailsQuery?.data]);
+  const ingredients = useMemo(() => ingredientsQuery?.data, [ingredientsQuery?.data]);
 
   const handleChangeSearch = useCallback(
     (query: CocktailQuery) => {
