@@ -1,14 +1,14 @@
 import LocalBarIcon from '@mui/icons-material/LocalBar';
 import { AppBar, Button, Toolbar, Typography } from '@mui/material';
 import { useCallback } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, Redirect } from 'react-router-dom';
 import { UserMenu } from './UserMenu';
 
 export const ApplicationBar = () => {
   const isAuthenticated = false;
 
   const handleLogin = useCallback(() => {
-    console.log('handleLogin');
+    window.location.href = '/login';
   }, []);
 
   const handleCreateAccount = useCallback(() => {
@@ -39,7 +39,7 @@ export const ApplicationBar = () => {
         )}
         {isAuthenticated && (
           <>
-            <Button component={RouterLink} to="/create-cocktail" variant="contained" sx={{ my: 1, mx: 1.5 }}>
+            <Button component={Redirect} to="/create-cocktail" variant="contained" sx={{ my: 1, mx: 1.5 }}>
               Add new Cocktail
             </Button>
             <UserMenu />

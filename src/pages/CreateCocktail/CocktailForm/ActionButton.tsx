@@ -8,7 +8,7 @@ import { MouseEvent, useCallback, useState } from 'react';
 import Button from '@mui/material/Button';
 
 type ActionButtonProps = {
-  action: string;
+  action?: string;
   onChange: (action: string) => void;
 };
 
@@ -34,7 +34,7 @@ export const ActionButton = (props: ActionButtonProps) => {
     <>
       <IconButton onClick={handleOpen} color="primary">
         <div style={{ width: 50, height: 50, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <CocktailStepIcon icon={action} />
+          {action ? <CocktailStepIcon icon={action} /> : '?'}
         </div>
       </IconButton>
       <Modal

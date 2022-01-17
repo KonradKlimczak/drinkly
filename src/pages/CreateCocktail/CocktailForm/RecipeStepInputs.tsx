@@ -40,9 +40,12 @@ export const RecipeStepInputs = (props: RecipeStepInputsProps) => {
     setEditIngredient({ kind: 'Edit', ingredient });
   }, []);
 
-  const onRemoveIngredient = useCallback((ingredient: Ingredient) => {
-    onChange({ ...step, ingredients: step.ingredients.filter((i) => i.id !== ingredient.id) });
-  }, [onChange, step]);
+  const onRemoveIngredient = useCallback(
+    (ingredient: Ingredient) => {
+      onChange({ ...step, ingredients: step.ingredients.filter((i) => i.id !== ingredient.id) });
+    },
+    [onChange, step]
+  );
 
   const handleSaveIngredient = useCallback(
     (ingredient: Ingredient) => {
@@ -62,6 +65,16 @@ export const RecipeStepInputs = (props: RecipeStepInputsProps) => {
       onChange({
         ...step,
         action,
+      });
+    },
+    [onChange, step]
+  );
+
+  const handleChangeEndAction = useCallback(
+    (endAction: string) => {
+      onChange({
+        ...step,
+        endAction,
       });
     },
     [onChange, step]
@@ -101,6 +114,7 @@ export const RecipeStepInputs = (props: RecipeStepInputsProps) => {
           />
         )}
       </Box>
+      <ActionButton action={step.endAction} onChange={handleChangeEndAction} />
     </Box>
   );
 };

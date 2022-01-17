@@ -17,4 +17,4 @@ export const addIngredient = (cocktail: CocktailInput, ingredient: Ingredient, s
   };
 };
 
-export const getRecipeStep = (): RecipeStep => ({ id: uuidv4(), action: 'pour', ingredients: [] });
+export const getRecipeStep = (): RecipeStep => ({ id: uuidv4(), action: 'shake', ingredients: [] });
